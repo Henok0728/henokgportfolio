@@ -203,61 +203,67 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(typeWriter, 500);
     }
 
-    // Contact Form Submission Handling
-    const contactForm = document.querySelector('.contact-form');
-    if (contactForm) {
-        contactForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const submitBtn = contactForm.querySelector('.submit-btn');
-            const originalText = submitBtn.textContent;
-            
-            // Give visual feedback
-            submitBtn.textContent = 'Sending...';
-            submitBtn.disabled = true;
+   // Contact Form Submission Handling
+const contactForm = document.querySelector('.contact-form');
 
-            const formspreeEndpoint = "https://formspree.io/f/xykvppky";
-            
-            const formData = new FormData(contactForm);
+if (contactForm) {
+    contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-            try {
-                const response = await fetch(formspreeEndpoint, {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                });
+        const submitBtn = contactForm.querySelector('.submit-btn');
+        const originalText = submitBtn.textContent;
 
-                if (response.ok) {
-                    submitBtn.textContent = 'Message Sent!';
-                    submitBtn.style.backgroundColor = '#10b981'; // Green success color
-                    submitBtn.style.color = '#fff';
-                    contactForm.reset();
-                } else {
-                    const data = await response.json();
-                    if (data.errors && data.errors.length > 0) {
-                        submitBtn.textContent = data.errors[0].message;
-                    } else if (formspreeEndpoint.includes('YOUR_FORMSPREE_ID')) {
-                        submitBtn.textContent = 'Setup Required';
-                        console.log("Please replace 'YOUR_FORMSPREE_ID' with your actual Formspree ID.");
-                    } else {
-                        submitBtn.textContent = 'Error Sending';
-                    }
-                    submitBtn.style.backgroundColor = '#f59e0b'; // Orange warning color
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending...';
+
+        const formspreeEndpoint = 'https://formspree.io/f/xykvppky';
+
+        try {
+            const response = await fetch(formspreeEndpoint, {
+                method: 'POST',
+                body: new FormData(contactForm),
+                headers: {
+                    'Accept': 'application/json'
                 }
-            } catch (error) {
-                submitBtn.textContent = 'Network Error';
-                submitBtn.style.backgroundColor = '#ef4444'; // Red error color
-            }
+            });
 
-            // Reset button state after 3 seconds
-            setTimeout(() => {
-                submitBtn.textContent = originalText;
-                submitBtn.style.backgroundColor = '';
-                submitBtn.style.color = '';
-                submitBtn.disabled = false;
-            }, 3000);
-        });
-    }
+            const data = await response.json();
+
+            console.log('Formspree Status:', response.status);
+            console.log('Formspree Response:', data);
+
+            if (response.ok) {
+                submitBtn.textContent = '✓ Message Sent!';
+                submitBtn.style.backgroundColor = '#10b981';
+
+                contactForm.reset();
+            } else {
+                let errorMessage = 'Submission Failed';
+
+                if (data.errors && data.errors.length > 0) {
+                    errorMessage = data.errors[0].message;
+                } else if (data.error) {
+                    errorMessage = data.error;
+                }
+
+                submitBtn.textContent = errorMessage;
+                submitBtn.style.backgroundColor = '#ef4444';
+
+                console.error('Formspree Error:', data);
+            }
+        } catch (error) {
+            console.error('Network Error:', error);
+
+            submitBtn.textContent = 'Network Error';
+            submitBtn.style.backgroundColor = '#ef4444';
+        }
+
+        setTimeout(() => {
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
+            submitBtn.style.backgroundColor = '';
+            submitBtn.style.color = '';
+        }, 4000);
+    });
+}
 });
