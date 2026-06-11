@@ -1,9 +1,79 @@
 .carousel{
-    width: 90%;
+    width: 200%;
     overflow:hidden;
     mask-image: linear-gradient(to right, transparent,#000 10%,90%,transparent);
 }
-.track {
+
+/*for icons*/
+.icons-page {
+    display:flex;
+    width:max-content;
+    will-change:transform;
+    animation: scroll 10s linear infinite;
+}
+
+.icons-page .logo-item{
+    width:100px;
+    height:100px;
+    flex-shrink:0;
+    border-radius: 15px;
+    margin-right:15px;
+    overflow:hidden;
+    
+
+}
+@keyframes scroll {
+    to{
+        translate:-50%;
+    }
+}
+.logo-item img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    transition: transform .5s filter .4s;
+}
+.carousel:hover .logo-item img{
+    filter:grayscale(.8);
+}
+.carousel:hover .icons-page {
+    animation-play-state: paused;
+
+}
+.logo-item img:hover .logo-item img{  
+    filter: grayscale(0) !important;
+    transform: scale(1.08);  
+}
+@media (max-width:768px){
+    .caraousel {
+        width:180px;
+        height:150px;
+        border-radius:12px;
+        margin-right:12px;
+
+    }
+}
+@media (max-width:480px){
+   .carousel{
+        width:100%;
+        mask-image: linear-gradient(to right , transparent, #000 5% 95%,transparent);
+        --webklit-mask-image: linear-gradient(to right, transparent, #000 5% 95%, transparent);
+   }
+   
+    .logo-item{
+        width:140px;
+        height:110px;
+        border-radius: 10px;
+        margin-right: 10px;
+
+    }
+    .icons-page{
+        animation-duration: 14s;
+    }
+}
+
+/* .track {
     display:flex;
     width:max-content;
     will-change:transform;
@@ -69,72 +139,4 @@
     .track{
         animation-duration: 14s;
     }
-}
-/*for scrolling page*/
-.icons-page {
-    display:flex;
-    width:max-content;
-    will-change:transform;
-    animation: scroll 10s linear infinite;
-}
-
-.icons-page .logo-item{
-    width:200px;
-    height:200px;
-    flex-shrink:0;
-    border-radius: 15px;
-    margin-right:15px;
-    overflow:hidden;
-    
-
-}
-@keyframes scroll {
-    to{
-        translate:-50%;
-    }
-}
-.logo-item img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    display:block;
-    transition: transform .5s filter .4s;
-}
-.carousel:hover .logo-item img{
-    filter:grayscale(.8);
-}
-.carousel:hover .track {
-    animation-play-state: paused;
-
-}
-.logo-item img:hover .logo-item img{  
-    filter: grayscale(0) !important;
-    transform: scale(1.08);  
-}
-@media (max-width:768px){
-    .caraousel {
-        width:180px;
-        height:150px;
-        border-radius:12px;
-        margin-right:12px;
-
-    }
-}
-@media (max-width:480px){
-   .carousel{
-        width:100%;
-        mask-image: linear-gradient(to right , transparent, #000 5% 95%,transparent);
-        --webklit-mask-image: linear-gradient(to right, transparent, #000 5% 95%, transparent);
-   }
-   
-    .logo-item{
-        width:140px;
-        height:110px;
-        border-radius: 10px;
-        margin-right: 10px;
-
-    }
-    .icons-page{
-        animation-duration: 14s;
-    }
-}
+} */
