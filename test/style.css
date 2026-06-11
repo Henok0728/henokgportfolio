@@ -1,5 +1,5 @@
 .carousel{
-    width: 200%;
+    width:100%;
     overflow:hidden;
     mask-image: linear-gradient(to right, transparent,#000 10%,90%,transparent);
 }
@@ -35,7 +35,8 @@
     transition: transform .5s filter .4s;
 }
 .carousel:hover .logo-item img{
-    filter:grayscale(.8);
+    filter:grayscale(0) !important;
+    transform: scale(1.08);  
 }
 .carousel:hover .icons-page {
     animation-play-state: paused;
