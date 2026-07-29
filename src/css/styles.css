@@ -107,7 +107,6 @@ h1, h2, h3 {
     -webkit-text-fill-color: transparent;
 }
 
-/* Header / Glassmorphism Nav */
 .glass-nav {
     position: fixed;
     top: 0;
@@ -200,7 +199,7 @@ h1, h2, h3 {
     width: 100%;
 }
 
-/* Main Layout */
+
 main {
     max-width: 1200px;
     margin: 0 auto;
@@ -233,7 +232,7 @@ section {
     border-radius: 2px;
 }
 
-/* Buttons */
+
 .btn {
     display: inline-block;
     padding: 0.8rem 1.8rem;
@@ -269,7 +268,6 @@ section {
     background: rgba(139, 92, 246, 0.1);
 }
 
-/* Hero Section */
 .hero-container {
     display: flex;
     align-items: center;
@@ -330,7 +328,7 @@ section {
     font-size: clamp(3rem, 5vw, 4.5rem);
     margin-bottom: 1.5rem;
     letter-spacing: -1px;
-    min-height: 2.4em; /* Reserve height to prevent layout shift during typing */
+    min-height: 2.4em; 
 }
 
 .headline::after {
@@ -458,7 +456,7 @@ section {
     transform: translateX(5px);
 }
 
-/* Timeline Sections (Experience & Education) */
+
 .timeline-section {
     position: relative;
 }
@@ -517,9 +515,9 @@ section {
 }
 
 .timeline-content {
-    /* Using project-card base styles, but overriding some margins */
+   
     padding: 1.5rem;
-    display: block; /* Overrides project-card flex */
+    display: block;
 }
 
 .timeline-content h3 {
@@ -541,7 +539,7 @@ section {
     margin-bottom: 0;
 }
 
-/* Skills Section */
+
 .skills-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -552,7 +550,7 @@ section {
 
 .skill-category {
     padding: 2rem;
-    display: block; /* Override project-card flex column if needed */
+    display: block; 
 }
 
 .skill-category h3 {
@@ -583,7 +581,7 @@ section {
     border-color: var(--accent-color);
 }
 
-/* About Section */
+
 .about-content {
     background: var(--surface-color);
     border: 1px solid var(--surface-border);
@@ -600,7 +598,7 @@ section {
     color: var(--text-secondary);
 }
 
-/* Contact Form */
+
 .contact-container {
     max-width: 600px;
     margin: 0 auto;
@@ -652,7 +650,7 @@ section {
     margin-top: 1rem;
 }
 
-/* Footer */
+
 footer {
     padding: 2rem 0;
     border-top: 1px solid var(--surface-border);
@@ -690,8 +688,6 @@ footer {
 .social-links a:hover {
     color: var(--text-primary);
 }
-
-/* Scroll Animations using hidden classes */
 .hidden {
     opacity: 0;
     transform: translateY(40px);
@@ -703,7 +699,6 @@ footer {
     transform: translateY(0);
 }
 
-/* Responsive */
 @media (max-width: 768px) {
     .nav-links {
         gap: 1rem;
@@ -744,7 +739,6 @@ footer {
     }
 }
 
-/* Preloader */
 #preloader {
     position: fixed;
     top: 0;
@@ -775,7 +769,7 @@ footer {
     width: 80px;
     height: 80px;
     object-fit: cover;
-    border-radius: 50%; /* Make the icon perfectly circular */
+    border-radius: 50%; 
     animation: pulseIcon 1.5s ease-in-out infinite alternate;
     filter: drop-shadow(0 0 15px var(--accent-glow));
 }
@@ -857,11 +851,11 @@ footer {
 
 /* Continuous infinite scroll moving left-to-right */
 .track-left-to-right {
-    animation: scrollLeftToRight 28s linear infinite;
+    animation: scrollLeftToRight 30s linear infinite;
 }
 
 .track-left-to-right-slow {
-    animation: scrollLeftToRight 36s linear infinite;
+    animation: scrollLeftToRight 40s linear infinite;
 }
 
 /* Pause scroll when interacting with the carousel */
@@ -871,7 +865,7 @@ footer {
 
 @keyframes scrollLeftToRight {
     0% {
-        transform: translateX(-50%);
+        transform: translateX(-33.3333%);
     }
     100% {
         transform: translateX(0%);
@@ -887,6 +881,7 @@ footer {
     gap: 12px;
     padding: 22px 32px;
     min-width: 140px;
+    flex-shrink: 0; /* Prevents card squishing so marquee scrolls smoothly */
     background: rgba(20, 20, 20, 0.6);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 18px;
@@ -933,4 +928,5 @@ footer {
 .skill-card:hover i {
     transform: scale(1.15);
 }
+
 
