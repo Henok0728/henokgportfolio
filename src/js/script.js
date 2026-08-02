@@ -1,3 +1,5 @@
+import { initSpaceBackground } from './space-bg.js';
+
 // Immediately restore theme preference from localStorage to avoid theme flash
 (function() {
     const savedTheme = localStorage.getItem('portfolio-theme');
@@ -7,6 +9,9 @@
 })();
 
 const init = () => {
+    // Initialize Space Science Monochromatic Background
+    initSpaceBackground();
+
     // Light / Dark Mode Toggle Logic
     const themeToggleBtn = document.getElementById('theme-toggle');
     if (themeToggleBtn) {

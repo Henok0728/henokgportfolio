@@ -24,11 +24,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "devicons": "^2.0.1"
+    "devicons": "^2.0.1",
+    "nodemon": "^3.1.14"
   },
   "devDependencies": {
-    "@esbuild/linux-x64": "^0.24.2",
-    "@rollup/rollup-linux-x64-gnu": "^4.62.3",
     "vite": "^6.0.0"
   }
 }
