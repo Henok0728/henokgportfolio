@@ -21,7 +21,7 @@
     <div class="scroll-progress"></div>
     <div class="background-mesh"></div>
 
-    <!-- Floating Theme Toggle (Right Side Next to Nav) -->
+    <!-- Floating Theme Toggle (Outside Nav Bar) -->
     <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle light and dark theme">
         <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="5"></circle>
@@ -45,7 +45,12 @@
                 <div id="nav-profile-slot"></div>
                 <a href="#home" class="logo">Henok Gizaw Nigatu</a>
             </div>
-            <nav class="nav-right">
+            <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle navigation menu">
+                <span class="hamburger-bar"></span>
+                <span class="hamburger-bar"></span>
+                <span class="hamburger-bar"></span>
+            </button>
+            <nav class="nav-right" id="nav-menu">
                 <ul class="nav-links">
                     <li><a href="#home">Home</a></li>
                     <li><a href="#about">About</a></li>

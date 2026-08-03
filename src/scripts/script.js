@@ -9,8 +9,9 @@ import { initSpaceBackground } from './space-bg.js';
 })();
 
 const init = () => {
-    // Initialize Space Science Monochromatic Background
-    initSpaceBackground();
+    // Remove space science background canvas if present
+    const spaceBgCanvas = document.getElementById('space-science-bg');
+    if (spaceBgCanvas) spaceBgCanvas.remove();
 
     // Light / Dark Mode Toggle Logic
     const themeToggleBtn = document.getElementById('theme-toggle');
@@ -23,6 +24,33 @@ const init = () => {
             } else {
                 document.documentElement.setAttribute('data-theme', 'light');
                 localStorage.setItem('portfolio-theme', 'light');
+            }
+        });
+    }
+
+    // Mobile Navigation Menu Toggle Logic
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const navMenu = document.getElementById('nav-menu');
+    const navLinksList = document.querySelectorAll('.nav-links a');
+
+    if (mobileMenuToggle && navMenu) {
+        mobileMenuToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            mobileMenuToggle.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        navLinksList.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenuToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!navMenu.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
+                mobileMenuToggle.classList.remove('active');
+                navMenu.classList.remove('active');
             }
         });
     }
