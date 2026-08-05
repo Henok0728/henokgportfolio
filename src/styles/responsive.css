@@ -1,0 +1,194 @@
+/* ==========================================================================
+   Smooth Mobile Phone UI & Responsive Breakpoints
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .theme-toggle-btn {
+        top: 14px;
+        right: 14px;
+        width: 42px;
+        height: 42px;
+    }
+
+    .glass-nav {
+        top: 12px;
+        left: 12px;
+        transform: none;
+        width: calc(100% - 68px);
+        height: 52px;
+        padding: 0 0.8rem;
+        border-radius: 26px;
+    }
+
+    .mobile-menu-toggle {
+        display: flex;
+    }
+
+    .nav-right {
+        position: absolute;
+        top: 66px;
+        left: 0;
+        right: 0;
+        background: rgba(10, 10, 10, 0.94);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--surface-border);
+        border-radius: 24px;
+        padding: 1rem;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        pointer-events: none;
+    }
+
+    [data-theme="light"] .nav-right {
+        background: rgba(255, 255, 255, 0.95);
+        box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
+    }
+
+    .nav-right.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+        pointer-events: auto;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        width: 100%;
+        gap: 0.4rem;
+    }
+
+    .nav-links a {
+        display: block;
+        width: 100%;
+        text-align: center;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        border-radius: 12px;
+    }
+
+    section {
+        min-height: auto;
+        padding-top: 90px;
+        padding-bottom: 50px;
+    }
+
+    main {
+        padding: 0 1.25rem;
+    }
+
+    .hero-container {
+        flex-direction: column-reverse;
+        text-align: center;
+        gap: 2.5rem;
+    }
+
+    .headline {
+        font-size: clamp(2rem, 7.5vw, 3rem);
+        min-height: auto;
+    }
+
+    .bio {
+        font-size: 1.05rem;
+        margin-bottom: 1.8rem;
+    }
+
+    .hero-actions {
+        justify-content: center;
+        flex-direction: row;
+        gap: 0.75rem;
+    }
+
+    .btn {
+        flex: 1;
+        min-width: 130px;
+        text-align: center;
+        padding: 0.75rem 1.25rem;
+        font-size: 0.95rem;
+    }
+
+    .profile-image {
+        width: clamp(170px, 45vw, 230px);
+        height: clamp(170px, 45vw, 230px);
+    }
+
+    .project-grid, .skills-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .timeline-container {
+        padding-left: 1.25rem;
+    }
+
+    .timeline-dot {
+        left: -1.25rem;
+    }
+
+    .timeline-content {
+        padding: 1.25rem;
+    }
+
+    .contact-form {
+        padding: 1.5rem 1.25rem;
+    }
+
+    .input-group input,
+    .input-group textarea {
+        font-size: 16px;
+        padding: 0.85rem 1rem;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.2rem;
+    }
+
+    .social-links {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .skills-carousel-container::before,
+    .skills-carousel-container::after {
+        width: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .glass-nav {
+        top: 8px;
+        width: calc(100% - 16px);
+        padding: 0 0.8rem;
+    }
+
+    .logo {
+        font-size: 1rem;
+    }
+
+    .headline {
+        font-size: 1.9rem;
+    }
+
+    .hero-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    .project-card {
+        border-radius: 14px;
+    }
+
+    .card-content {
+        padding: 1.2rem;
+    }
+}

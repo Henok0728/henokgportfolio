@@ -1,1 +1,3 @@
-# Henokg-portfolio
+# simple portfolio
+
+author = Henok Gizaw
