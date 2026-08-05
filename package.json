@@ -18,7 +18,8 @@
     "test": "test"
   },
   "scripts": {
-    "dev": "vite",
+    "dev": "nodemon --watch src -e html,css,js --exec vite",
+    "vite": "vite",
     "build": "vite build",
     "preview": "vite preview",
     "test": "echo \"Error: no test specified\" && exit 1"
