@@ -1,18 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Bebas+Neue&display=swap');
+
+/* ==========================================================================
+   Footer Base & Integrated Nike-Style Graphic Slogan Layout
+   ========================================================================== */
+
 footer {
-    padding: 2rem 0;
+    padding: 3rem 0 0 0;
     border-top: 1px solid var(--surface-border);
     margin-top: 4rem;
+    position: relative;
+    overflow: hidden;
 }
 
 .footer-content {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 2rem;
+    padding: 0 2rem 2rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
     gap: 1rem;
+    position: relative;
+    z-index: 2;
 }
 
 .footer-content p {
@@ -34,4 +44,78 @@ footer {
 
 .social-links a:hover {
     color: var(--text-primary);
+}
+
+/* Integrated Graphic Background Layout */
+.nike-slogan-layout {
+    position: relative;
+    width: 100%;
+    padding: 2.8rem 1rem 2.2rem 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    pointer-events: none;
+    user-select: none;
+}
+
+.slogan-bg-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 120px;
+    background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 70%);
+    filter: blur(35px);
+    pointer-events: none;
+}
+
+.slogan-text {
+    font-family: 'Oswald', 'Bebas Neue', sans-serif;
+    font-size: clamp(2.8rem, 9.8vw, 9.2rem);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 0.85;
+    font-style: italic;
+    white-space: nowrap;
+    text-align: center;
+    display: inline-block;
+
+    /* Increased Vertical Height Stretch */
+    transform: scaleY(1.25) skewX(-2deg);
+
+    /* Subtle background-blended text color (readable yet integrated) */
+    opacity: 0.32;
+    background: linear-gradient(180deg, var(--text-primary) 0%, rgba(255, 255, 255, 0.12) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    /* Soft Depth Shadow */
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
+
+    transition: opacity 0.4s ease;
+}
+
+[data-theme="light"] .slogan-bg-glow {
+    background: radial-gradient(ellipse at center, rgba(15, 23, 42, 0.06) 0%, rgba(15, 23, 42, 0) 70%);
+}
+
+[data-theme="light"] .slogan-text {
+    opacity: 0.38;
+    background: linear-gradient(180deg, #0f172a 0%, rgba(15, 23, 42, 0.18) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 2px 8px rgba(15, 23, 42, 0.1));
+}
+
+@media (max-width: 768px) {
+    .nike-slogan-layout {
+        padding: 1.8rem 0.5rem 1.4rem 0.5rem;
+    }
+    .slogan-text {
+        font-size: clamp(1.6rem, 8.5vw, 4.8rem);
+        transform: scaleY(1.2) skewX(-2deg);
+    }
 }
