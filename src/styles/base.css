@@ -28,8 +28,8 @@ body {
     position: relative;
 }
 
-/* Space Science Background Canvas */
-#space-science-bg {
+/* Modern Physics Equations Background Canvas */
+#physics-bg-canvas {
     position: fixed;
     top: 0;
     left: 0;
@@ -37,9 +37,10 @@ body {
     height: 100vh;
     z-index: -2;
     pointer-events: none;
+    transition: opacity 0.5s ease;
 }
 
-/* Background Ambient Lighting Overlay */
+/* Background Ambient Quantum Lighting Overlay */
 .background-mesh {
     position: fixed;
     top: 0;
@@ -49,16 +50,18 @@ body {
     z-index: -1;
     pointer-events: none;
     background: 
-        radial-gradient(circle at 84% 22%, rgba(255, 255, 255, 0.05) 0%, transparent 45%),
-        radial-gradient(circle at 12% 78%, rgba(255, 255, 255, 0.03) 0%, transparent 40%);
-    filter: blur(60px);
+        radial-gradient(circle at 80% 20%, rgba(56, 189, 248, 0.04) 0%, transparent 50%),
+        radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.035) 0%, transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.02) 0%, transparent 60%);
+    filter: blur(50px);
     animation: meshFlow 25s ease-in-out infinite alternate;
 }
 
 [data-theme="light"] .background-mesh {
     background: 
-        radial-gradient(circle at 84% 22%, rgba(15, 23, 42, 0.04) 0%, transparent 45%),
-        radial-gradient(circle at 12% 78%, rgba(15, 23, 42, 0.02) 0%, transparent 40%);
+        radial-gradient(circle at 80% 20%, rgba(37, 99, 235, 0.045) 0%, transparent 50%),
+        radial-gradient(circle at 20% 80%, rgba(79, 70, 229, 0.03) 0%, transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 0.02) 0%, transparent 60%);
 }
 
 @keyframes meshFlow {

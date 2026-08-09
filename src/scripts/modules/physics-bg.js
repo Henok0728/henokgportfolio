@@ -1,0 +1,629 @@
+/**
+ * Modern Physics Equations Background Engine
+ * Interactive canvas featuring iconic modern physics formulas:
+ * - General Relativity & Schwarzschild Spacetime Metric
+ * - Quantum Mechanics & Schrödinger Wave Equations
+ * - Relativistic Quantum Field Theory & Dirac Equation
+ * - Bekenstein-Hawking Black Hole Thermodynamics
+ * - Feynman Path Integrals & QED Lagrangian
+ * - Heisenberg Uncertainty, Boltzmann & Shannon Entropy
+ * 
+ * Features:
+ * - Light & Dark mode adaptive styling
+ * - Spacetime metric coordinate grid & quantum entanglement node connections
+ * - Mouse gravitational lensing deflection & equation revelation
+ * - Interactive quantum wave ripple pulses
+ * - High-DPI crisp math typography & 60fps physics simulation
+ */
+
+export function initPhysicsBackground() {
+    // Prevent duplicate canvas instances
+    const existing = document.getElementById('physics-bg-canvas');
+    if (existing) existing.remove();
+
+    const canvas = document.createElement('canvas');
+    canvas.id = 'physics-bg-canvas';
+    canvas.style.position = 'fixed';
+    canvas.style.top = '0';
+    canvas.style.left = '0';
+    canvas.style.width = '100vw';
+    canvas.style.height = '100vh';
+    canvas.style.zIndex = '-2';
+    canvas.style.pointerEvents = 'none';
+    canvas.style.transition = 'opacity 0.6s ease';
+
+    document.body.prepend(canvas);
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    let dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    // Mouse & interaction state
+    const mouse = {
+        x: -2000,
+        y: -2000,
+        targetX: -2000,
+        targetY: -2000,
+        radius: 190,
+        isHovered: false
+    };
+
+    const ripples = [];
+
+    // Modern Physics Equations Dataset with authentic mathematical typography
+    const EQUATIONS_DATA = [
+        {
+            formula: 'G_μν + Λ g_μν = (8πG / c⁴) T_μν',
+            name: 'Einstein Field Equations',
+            field: 'General Relativity',
+            size: 19
+        },
+        {
+            formula: 'iℏ (∂Ψ / ∂t) = ĤΨ',
+            name: 'Schrödinger Wave Equation',
+            field: 'Quantum Mechanics',
+            size: 20
+        },
+        {
+            formula: '(iℏγ^μ ∂_μ - mc)ψ = 0',
+            name: 'Dirac Equation',
+            field: 'Relativistic Quantum Mechanics',
+            size: 19
+        },
+        {
+            formula: 'Δx · Δp ≥ ℏ / 2',
+            name: 'Heisenberg Uncertainty Principle',
+            field: 'Quantum Mechanics',
+            size: 18
+        },
+        {
+            formula: 'S_BH = (k_B c³ A) / (4 G ℏ)',
+            name: 'Bekenstein-Hawking Entropy',
+            field: 'Black Hole Thermodynamics',
+            size: 19
+        },
+        {
+            formula: 'E² = (pc)² + (m₀c²)²',
+            name: 'Relativistic Energy-Momentum',
+            field: 'Special Relativity',
+            size: 18
+        },
+        {
+            formula: '𝒵 = ∫ 𝒟ϕ exp(iS[ϕ] / ℏ)',
+            name: 'Feynman Path Integral',
+            field: 'Quantum Field Theory',
+            size: 19
+        },
+        {
+            formula: 'ℒ_QED = ψ̄(iγ^μ D_μ - m)ψ - ¼ F_μν F^μν',
+            name: 'QED Lagrangian',
+            field: 'Quantum Electrodynamics',
+            size: 18
+        },
+        {
+            formula: '∂_μ F^μν = μ₀ J^ν',
+            name: 'Covariant Maxwell Equations',
+            field: 'Classical Electrodynamics',
+            size: 18
+        },
+        {
+            formula: '(□ + m²c² / ℏ²)ϕ = 0',
+            name: 'Klein-Gordon Equation',
+            field: 'Quantum Field Theory',
+            size: 18
+        },
+        {
+            formula: 'S = k_B ln Ω',
+            name: 'Boltzmann Entropy Formula',
+            field: 'Statistical Mechanics',
+            size: 19
+        },
+        {
+            formula: '[x̂_j, p̂_k] = iℏ δ_jk',
+            name: 'Canonical Commutator',
+            field: 'Quantum Mechanics',
+            size: 18
+        },
+        {
+            formula: 'λ = h / p = 2π / k',
+            name: 'de Broglie Wavelength',
+            field: 'Wave-Particle Duality',
+            size: 18
+        },
+        {
+            formula: 'α = e² / (4πε₀ ℏc) ≈ 1/137',
+            name: 'Fine-Structure Constant',
+            field: 'Quantum Electrodynamics',
+            size: 17
+        },
+        {
+            formula: 'ds² = -(1 - 2GM/rc²)c²dt² + (1 - 2GM/rc²)⁻¹dr² + r²dΩ²',
+            name: 'Schwarzschild Metric',
+            field: 'General Relativity',
+            size: 17
+        },
+        {
+            formula: '(ȧ / a)² = (8πG / 3)ρ - kc² / a² + Λc² / 3',
+            name: 'Friedmann Cosmological Equation',
+            field: 'Cosmology & Gravitation',
+            size: 18
+        },
+        {
+            formula: 'T_H = ℏc³ / (8π G M k_B)',
+            name: 'Hawking Radiation Temperature',
+            field: 'Black Hole Physics',
+            size: 18
+        },
+        {
+            formula: 'F = q(E + v × B)',
+            name: 'Lorentz Force Law',
+            field: 'Electromagnetism',
+            size: 18
+        },
+        {
+            formula: 'ℓ_P = √(ℏG / c³)',
+            name: 'Planck Length Scale',
+            field: 'Quantum Gravity',
+            size: 18
+        },
+        {
+            formula: 't_P = √(ℏG / c⁵)',
+            name: 'Planck Time Scale',
+            field: 'Quantum Gravity',
+            size: 18
+        },
+        {
+            formula: '∇ × E = -∂B / ∂t',
+            name: 'Faraday-Maxwell Law of Induction',
+            field: 'Electrodynamics',
+            size: 18
+        },
+        {
+            formula: 'H(X) = -∑ P(x) log₂ P(x)',
+            name: 'Shannon Information Entropy',
+            field: 'Quantum Information Theory',
+            size: 18
+        },
+        {
+            formula: 'γ = 1 / √(1 - v² / c²)',
+            name: 'Lorentz Contraction Factor',
+            field: 'Special Relativity',
+            size: 18
+        },
+        {
+            formula: 'E = ℏω = hν',
+            name: 'Planck-Einstein Energy Relation',
+            field: 'Quantum Theory',
+            size: 19
+        }
+    ];
+
+    // Floating Quantum Operator Glyphs
+    const QUANTUM_SYMBOLS = [
+        'ℏ', 'ψ', 'Ψ', '∇', '∂_μ', '∫𝒟ϕ', '∑', 'γ^μ', 'g_μν', 'c', 
+        'G', 'k_B', 'ε₀', 'μ₀', 'α', 'Ω', 'λ_dB', 'σ', 'δ_μν', 'exp(iS/ℏ)', 
+        'Ĥ', 'p̂', 'x̂', '⊗', '⟨ψ|ϕ⟩', 'Tr(ρ)', '□'
+    ];
+
+    // Theme Color Palette
+    function getTheme() {
+        const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+        if (isLight) {
+            return {
+                isLight: true,
+                bgTop: '#ffffff',
+                bgBottom: '#f8fafc',
+                gridLine: 'rgba(0, 0, 0, 0.045)',
+                gridNode: 'rgba(0, 0, 0, 0.14)',
+                eqBase: 'rgba(0, 0, 0, 0.40)',
+                eqHover: '#000000',
+                eqSub: 'rgba(0, 0, 0, 0.85)',
+                symbolBase: 'rgba(0, 0, 0, 0.26)',
+                symbolHover: '#000000',
+                connectionLine: 'rgba(0, 0, 0, 0.08)',
+                rippleColor: 'rgba(0, 0, 0, 0.25)',
+                lensGlow: 'rgba(0, 0, 0, 0.04)'
+            };
+        } else {
+            return {
+                isLight: false,
+                bgTop: '#000000',
+                bgBottom: '#050508',
+                gridLine: 'rgba(255, 255, 255, 0.024)',
+                gridNode: 'rgba(255, 255, 255, 0.07)',
+                eqBase: 'rgba(241, 245, 249, 0.20)',
+                eqHover: 'rgba(255, 255, 255, 0.98)',
+                eqSub: 'rgba(148, 163, 184, 0.90)',
+                symbolBase: 'rgba(148, 163, 184, 0.14)',
+                symbolHover: 'rgba(56, 189, 248, 0.85)',
+                connectionLine: 'rgba(255, 255, 255, 0.035)',
+                rippleColor: 'rgba(56, 189, 248, 0.28)',
+                lensGlow: 'rgba(56, 189, 248, 0.06)'
+            };
+        }
+    }
+
+    let equations = [];
+    let symbols = [];
+    let gridPoints = [];
+
+    // Initialize Equations Layout with spatial spacing
+    function initScene() {
+        equations = [];
+        symbols = [];
+        gridPoints = [];
+
+        // Dynamic count based on viewport area
+        const isMobile = width < 768;
+        const eqCount = isMobile ? 7 : Math.min(Math.floor((width * height) / 85000) + 4, EQUATIONS_DATA.length);
+        const shuffled = [...EQUATIONS_DATA].sort(() => 0.5 - Math.random());
+
+        // Grid-based initial distribution to prevent clumping
+        const cols = isMobile ? 2 : 4;
+        const rows = Math.ceil(eqCount / cols);
+        const cellW = width / cols;
+        const cellH = height / rows;
+
+        for (let i = 0; i < eqCount; i++) {
+            const data = shuffled[i % shuffled.length];
+            const col = i % cols;
+            const row = Math.floor(i / cols);
+
+            const x = col * cellW + Math.random() * (cellW * 0.7) + cellW * 0.15;
+            const y = row * cellH + Math.random() * (cellH * 0.7) + cellH * 0.15;
+            
+            equations.push({
+                ...data,
+                x: x,
+                y: y,
+                baseX: x,
+                baseY: y,
+                vx: (Math.random() - 0.5) * 0.16,
+                vy: (Math.random() - 0.5) * 0.16,
+                parallaxDepth: Math.random() * 0.5 + 0.75,
+                hoverProgress: 0,
+                pulseOffset: Math.random() * Math.PI * 2,
+                floatSpeed: Math.random() * 0.0012 + 0.0008
+            });
+        }
+
+        // Quantum Operator Symbols
+        const symbolCount = isMobile ? 12 : Math.min(Math.floor((width * height) / 42000), 28);
+        for (let i = 0; i < symbolCount; i++) {
+            const sym = QUANTUM_SYMBOLS[Math.floor(Math.random() * QUANTUM_SYMBOLS.length)];
+            const x = Math.random() * width;
+            const y = Math.random() * height;
+            symbols.push({
+                char: sym,
+                x: x,
+                y: y,
+                baseX: x,
+                baseY: y,
+                vx: (Math.random() - 0.5) * 0.25,
+                vy: (Math.random() - 0.5) * 0.25,
+                size: Math.random() * 8 + 14,
+                opacity: Math.random() * 0.5 + 0.5,
+                rot: Math.random() * Math.PI * 2,
+                rotSpeed: (Math.random() - 0.5) * 0.003,
+                hoverProgress: 0
+            });
+        }
+
+        // Spacetime Coordinate Grid Points
+        const gridSpacing = isMobile ? 120 : 100;
+        for (let gx = 0; gx < width + gridSpacing; gx += gridSpacing) {
+            for (let gy = 0; gy < height + gridSpacing; gy += gridSpacing) {
+                gridPoints.push({
+                    x: gx,
+                    y: gy,
+                    baseX: gx,
+                    baseY: gy
+                });
+            }
+        }
+    }
+
+    // Resize Handler
+    function handleResize() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+        ctx.scale(dpr, dpr);
+
+        initScene();
+    }
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    // Mouse / Touch Event Listeners
+    const onMouseMove = (e) => {
+        mouse.targetX = e.clientX;
+        mouse.targetY = e.clientY;
+        mouse.isHovered = true;
+    };
+
+    const onMouseLeave = () => {
+        mouse.targetX = -2000;
+        mouse.targetY = -2000;
+        mouse.isHovered = false;
+    };
+
+    const onPointerDown = (e) => {
+        const x = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : width / 2);
+        const y = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : height / 2);
+        
+        ripples.push({
+            x: x,
+            y: y,
+            radius: 10,
+            maxRadius: Math.max(width, height) * 0.45,
+            opacity: 0.7,
+            speed: 4.5
+        });
+    };
+
+    window.addEventListener('mousemove', onMouseMove, { passive: true });
+    document.addEventListener('mouseleave', onMouseLeave);
+    window.addEventListener('pointerdown', onPointerDown, { passive: true });
+
+    // Touch support for mobile devices
+    window.addEventListener('touchmove', (e) => {
+        if (e.touches && e.touches[0]) {
+            mouse.targetX = e.touches[0].clientX;
+            mouse.targetY = e.touches[0].clientY;
+            mouse.isHovered = true;
+        }
+    }, { passive: true });
+
+    window.addEventListener('touchend', onMouseLeave);
+
+    // Animation Loop
+    let animationFrameId = null;
+    let lastTime = performance.now();
+
+    function render(currentTime) {
+        const delta = Math.min((currentTime - lastTime) / 1000, 0.1);
+        lastTime = currentTime;
+
+        // Smooth mouse position interpolation (damping)
+        mouse.x += (mouse.targetX - mouse.x) * 0.08;
+        mouse.y += (mouse.targetY - mouse.y) * 0.08;
+
+        const theme = getTheme();
+
+        // Clear Canvas
+        ctx.clearRect(0, 0, width, height);
+
+        // Draw Spacetime Coordinate Grid with Gravitational Curvature
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = theme.gridLine;
+
+        // Interactive Gravitational Lensing Glow around Cursor
+        if (mouse.isHovered && mouse.x > 0 && mouse.y > 0) {
+            const glowGradient = ctx.createRadialGradient(
+                mouse.x, mouse.y, 0,
+                mouse.x, mouse.y, mouse.radius * 1.5
+            );
+            glowGradient.addColorStop(0, theme.lensGlow);
+            glowGradient.addColorStop(1, 'transparent');
+            ctx.fillStyle = glowGradient;
+            ctx.beginPath();
+            ctx.arc(mouse.x, mouse.y, mouse.radius * 1.5, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // Draw Metric Grid Nodes & Deflected Lattice
+        for (let i = 0; i < gridPoints.length; i++) {
+            const gp = gridPoints[i];
+            const dx = mouse.x - gp.baseX;
+            const dy = mouse.y - gp.baseY;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            // Gravitational distortion of metric lattice near cursor
+            if (dist < mouse.radius * 1.3 && dist > 1) {
+                const force = (1 - dist / (mouse.radius * 1.3)) * 14;
+                gp.x = gp.baseX - (dx / dist) * force;
+                gp.y = gp.baseY - (dy / dist) * force;
+            } else {
+                gp.x += (gp.baseX - gp.x) * 0.08;
+                gp.y += (gp.baseY - gp.y) * 0.08;
+            }
+
+            // Draw subtle metric node crosshair / dot
+            ctx.fillStyle = theme.gridNode;
+            ctx.fillRect(gp.x - 1, gp.y - 1, 2, 2);
+        }
+
+        // Draw Gravitational Ripples
+        for (let i = ripples.length - 1; i >= 0; i--) {
+            const r = ripples[i];
+            r.radius += r.speed;
+            r.opacity -= 0.012;
+
+            if (r.opacity <= 0 || r.radius >= r.maxRadius) {
+                ripples.splice(i, 1);
+                continue;
+            }
+
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(r.x, r.y, r.radius, 0, Math.PI * 2);
+            ctx.strokeStyle = theme.rippleColor.replace(/[\d\.]+\)$/, `${Math.max(0, r.opacity * 0.5)})`);
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            // Secondary wave ring
+            if (r.radius > 25) {
+                ctx.beginPath();
+                ctx.arc(r.x, r.y, r.radius - 20, 0, Math.PI * 2);
+                ctx.strokeStyle = theme.rippleColor.replace(/[\d\.]+\)$/, `${Math.max(0, r.opacity * 0.25)})`);
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
+            ctx.restore();
+        }
+
+        // Draw Quantum Symbols & Entanglement Connections
+        for (let i = 0; i < symbols.length; i++) {
+            const s = symbols[i];
+
+            // Motion & bounds
+            s.x += s.vx;
+            s.y += s.vy;
+            s.rot += s.rotSpeed;
+
+            if (s.x < -30) s.x = width + 30;
+            if (s.x > width + 30) s.x = -30;
+            if (s.y < -30) s.y = height + 30;
+            if (s.y > height + 30) s.y = -30;
+
+            // Mouse proximity interaction
+            const dx = mouse.x - s.x;
+            const dy = mouse.y - s.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            const isNear = dist < mouse.radius * 0.9;
+            s.hoverProgress += ((isNear ? 1 : 0) - s.hoverProgress) * 0.1;
+
+            // Draw symbol
+            ctx.save();
+            ctx.translate(s.x, s.y);
+            ctx.rotate(s.rot);
+
+            ctx.font = `italic ${s.size}px "EB Garamond", "STIX Two Text", "Times New Roman", serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+
+            if (s.hoverProgress > 0.05) {
+                ctx.fillStyle = theme.symbolHover;
+                ctx.shadowColor = theme.isLight ? 'rgba(0, 0, 0, 0.25)' : 'rgba(56, 189, 248, 0.7)';
+                ctx.shadowBlur = 8 * s.hoverProgress;
+            } else {
+                ctx.fillStyle = theme.symbolBase;
+            }
+
+            ctx.fillText(s.char, 0, 0);
+            ctx.restore();
+
+            // Delicate quantum entanglement lines between close symbols
+            for (let j = i + 1; j < symbols.length; j++) {
+                const s2 = symbols[j];
+                const sdx = s.x - s2.x;
+                const sdy = s.y - s2.y;
+                const sdist = Math.sqrt(sdx * sdx + sdy * sdy);
+
+                if (sdist < 90) {
+                    ctx.beginPath();
+                    ctx.moveTo(s.x, s.y);
+                    ctx.lineTo(s2.x, s2.y);
+                    ctx.strokeStyle = theme.connectionLine;
+                    ctx.lineWidth = 0.75;
+                    ctx.stroke();
+                }
+            }
+        }
+
+        // Draw Modern Physics Equations
+        for (let i = 0; i < equations.length; i++) {
+            const eq = equations[i];
+
+            // Gentle harmonic floating motion
+            const time = currentTime * 0.001;
+            const floatOffsetY = Math.sin(time * eq.floatSpeed * 1000 + eq.pulseOffset) * 6;
+            const floatOffsetX = Math.cos(time * eq.floatSpeed * 800 + eq.pulseOffset) * 4;
+
+            eq.x += eq.vx;
+            eq.y += eq.vy;
+
+            // Screen wrapping with generous padding
+            const pad = 140;
+            if (eq.x < -pad) eq.x = width + pad;
+            if (eq.x > width + pad) eq.x = -pad;
+            if (eq.y < -pad) eq.y = height + pad;
+            if (eq.y > height + pad) eq.y = -pad;
+
+            const renderX = eq.x + floatOffsetX;
+            const renderY = eq.y + floatOffsetY;
+
+            // Check distance from cursor for gravitational lensing & revelation
+            const dx = mouse.x - renderX;
+            const dy = mouse.y - renderY;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            const isTarget = dist < mouse.radius * 1.05;
+            eq.hoverProgress += ((isTarget ? 1 : 0) - eq.hoverProgress) * 0.12;
+
+            // Render Equation Card / Text
+            ctx.save();
+
+            // Gravitational lens deflection
+            let drawX = renderX;
+            let drawY = renderY;
+            if (dist < mouse.radius * 1.3 && dist > 2) {
+                const warp = (1 - dist / (mouse.radius * 1.3)) * 12;
+                drawX += (dx / dist) * warp;
+                drawY += (dy / dist) * warp;
+            }
+
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+
+            // Math Font for Formula
+            const fontSize = eq.size * (1 + eq.hoverProgress * 0.06);
+            ctx.font = `600 ${fontSize}px "EB Garamond", "STIX Two Text", "Times New Roman", serif`;
+
+            if (eq.hoverProgress > 0.02) {
+                // Focus state: Luminous high contrast with elegant label
+                ctx.fillStyle = theme.eqHover;
+                ctx.shadowColor = theme.isLight ? 'rgba(0, 0, 0, 0.25)' : 'rgba(56, 189, 248, 0.8)';
+                ctx.shadowBlur = 10 * eq.hoverProgress;
+
+                ctx.fillText(eq.formula, drawX, drawY);
+
+                // Subtitle: Field & Equation Name
+                ctx.shadowBlur = 0;
+                ctx.font = `600 11px "Inter", sans-serif`;
+                ctx.fillStyle = theme.eqSub;
+                
+                const metaText = `[ ${eq.field.toUpperCase()} • ${eq.name} ]`;
+                ctx.fillText(metaText, drawX, drawY + fontSize * 1.1);
+
+                // Elegant subtle underline
+                const textWidth = ctx.measureText(eq.formula).width;
+                ctx.beginPath();
+                ctx.moveTo(drawX - textWidth * 0.35, drawY + fontSize * 0.65);
+                ctx.lineTo(drawX + textWidth * 0.35, drawY + fontSize * 0.65);
+                ctx.strokeStyle = theme.isLight ? 'rgba(0, 0, 0, 0.65)' : 'rgba(56, 189, 248, 0.55)';
+                ctx.lineWidth = 1.2;
+                ctx.stroke();
+            } else {
+                // Ambient state: Refined subtle watermark
+                ctx.fillStyle = theme.eqBase;
+                ctx.fillText(eq.formula, drawX, drawY);
+            }
+
+            ctx.restore();
+        }
+
+        animationFrameId = requestAnimationFrame(render);
+    }
+
+    // Start Animation
+    animationFrameId = requestAnimationFrame(render);
+
+    // Clean-up on page unload or replacement
+    return () => {
+        if (animationFrameId) cancelAnimationFrame(animationFrameId);
+        window.removeEventListener('resize', handleResize);
+        window.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseleave', onMouseLeave);
+        window.removeEventListener('pointerdown', onPointerDown);
+    };
+}
