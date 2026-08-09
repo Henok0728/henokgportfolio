@@ -1,27 +1,31 @@
 /**
- * Modern Physics Equations Background Engine
- * Renders authentic LaTeX physics equations using KaTeX with:
- * - Genuine LaTeX mathematical formatting (fractions, roots, integrals, matrices, tensors)
- * - LaTeX code display and domain metadata badge on hover
- * - High-contrast black typography in Light Mode and glowing silver/cyan in Dark Mode
- * - Interactive gravitational lensing, particle wave connections & spacetime metric canvas
+ * Electromagnetics, Vector Calculus & Electrical Machines Background Engine
+ * Dedicated Dark Background Theme (Non-interactable, subtle watermark styling)
+ * 
+ * Equations Featured:
+ * - Double & Triple Integrals (Gauss Divergence Theorem, Stokes' Theorem, Energy Integrals)
+ * - Vector Curl Formulations & Identities (\nabla \times E, \nabla \times H, \nabla \times (\nabla \times A))
+ * - The Four Maxwell Equations in Differential and Integral Forms
+ * - Electrical Machines Equations (Induction Motor Torque-Slip, DC Machine Back-EMF/Torque,
+ *   Synchronous Power-Angle, Transformer EMF, Park dq0 Transformation, Co-energy Torque)
+ * - KaTeX rendered LaTeX mathematical formulas with subtle watermark opacity (dark mode only)
  */
 
 import katex from 'katex';
 
 export function initPhysicsBackground() {
-    // Clean up any existing instances
+    // Clean up any existing background instances
     const existingCanvas = document.getElementById('physics-bg-canvas');
     if (existingCanvas) existingCanvas.remove();
     const existingLayer = document.getElementById('physics-equations-layer');
     if (existingLayer) existingLayer.remove();
 
-    // 1. Spacetime Metric Canvas (for coordinates, particles, ripples)
+    // 1. Spacetime / Flux Field Canvas (Dark Mode Only)
     const canvas = document.createElement('canvas');
     canvas.id = 'physics-bg-canvas';
     document.body.prepend(canvas);
 
-    // 2. Floating LaTeX Equations DOM Layer
+    // 2. Floating LaTeX Equations DOM Layer (Dark Mode Only)
     const equationsLayer = document.createElement('div');
     equationsLayer.id = 'physics-equations-layer';
     document.body.prepend(equationsLayer);
@@ -33,176 +37,121 @@ export function initPhysicsBackground() {
     let height = window.innerHeight;
     let dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-    // Mouse & interaction state
-    const mouse = {
-        x: -2000,
-        y: -2000,
-        targetX: -2000,
-        targetY: -2000,
-        radius: 190,
-        isHovered: false
-    };
-
-    const ripples = [];
-
-    // Modern Physics Equations Dataset with authentic LaTeX formulas
+    // Curated Dataset: Maxwell Equations, Vector Curl, Double/Triple Integrals, Electrical Machines
     const EQUATIONS_DATA = [
-        {
-            latex: 'G_{\\mu\\nu} + \\Lambda g_{\\mu\\nu} = \\frac{8\\pi G}{c^4} T_{\\mu\\nu}',
-            name: 'Einstein Field Equations',
-            field: 'General Relativity'
-        },
-        {
-            latex: 'i\\hbar \\frac{\\partial}{\\partial t}\\Psi(\\mathbf{r},t) = \\hat{H}\\Psi(\\mathbf{r},t)',
-            name: 'Schrödinger Wave Equation',
-            field: 'Quantum Mechanics'
-        },
-        {
-            latex: '(i\\hbar\\gamma^\\mu \\partial_\\mu - mc)\\psi = 0',
-            name: 'Dirac Relativistic Equation',
-            field: 'Relativistic Quantum Mechanics'
-        },
-        {
-            latex: '\\Delta x \\cdot \\Delta p \\ge \\frac{\\hbar}{2}',
-            name: 'Heisenberg Uncertainty Principle',
-            field: 'Quantum Mechanics'
-        },
-        {
-            latex: 'S_{BH} = \\frac{k_B c^3 A}{4 G \\hbar}',
-            name: 'Bekenstein-Hawking Entropy',
-            field: 'Black Hole Thermodynamics'
-        },
-        {
-            latex: 'E^2 = (pc)^2 + (m_0 c^2)^2',
-            name: 'Relativistic Energy-Momentum',
-            field: 'Special Relativity'
-        },
-        {
-            latex: '\\mathcal{Z} = \\int \\mathcal{D}\\phi \\, \\exp\\left(\\frac{i}{\\hbar}S[\\phi]\\right)',
-            name: 'Feynman Path Integral',
-            field: 'Quantum Field Theory'
-        },
-        {
-            latex: '\\mathcal{L}_{QED} = \\bar{\\psi}(i\\gamma^\\mu D_\\mu - m)\\psi - \\frac{1}{4}F_{\\mu\\nu}F^{\\mu\\nu}',
-            name: 'QED Lagrangian',
-            field: 'Quantum Electrodynamics'
-        },
-        {
-            latex: '\\partial_\\mu F^{\\mu\\nu} = \\mu_0 J^\\nu',
-            name: 'Covariant Maxwell Equations',
-            field: 'Classical Electrodynamics'
-        },
-        {
-            latex: '\\left(\\Box + \\frac{m^2 c^2}{\\hbar^2}\\right)\\phi = 0',
-            name: 'Klein-Gordon Equation',
-            field: 'Quantum Field Theory'
-        },
-        {
-            latex: 'S = k_B \\ln \\Omega',
-            name: 'Boltzmann Entropy Formula',
-            field: 'Statistical Mechanics'
-        },
-        {
-            latex: '[\\hat{x}_j, \\hat{p}_k] = i\\hbar \\delta_{jk}',
-            name: 'Canonical Commutator',
-            field: 'Quantum Mechanics'
-        },
-        {
-            latex: '\\lambda = \\frac{h}{p} = \\frac{2\\pi}{k}',
-            name: 'de Broglie Wavelength',
-            field: 'Wave-Particle Duality'
-        },
-        {
-            latex: '\\alpha = \\frac{e^2}{4\\pi\\varepsilon_0 \\hbar c} \\approx \\frac{1}{137}',
-            name: 'Fine-Structure Constant',
-            field: 'Quantum Electrodynamics'
-        },
-        {
-            latex: 'ds^2 = -\\left(1 - \\frac{2GM}{rc^2}\\right)c^2 dt^2 + \\left(1 - \\frac{2GM}{rc^2}\\right)^{-1}dr^2 + r^2 d\\Omega^2',
-            name: 'Schwarzschild Metric',
-            field: 'General Relativity'
-        },
-        {
-            latex: '\\left(\\frac{\\dot{a}}{a}\\right)^2 = \\frac{8\\pi G}{3}\\rho - \\frac{k c^2}{a^2} + \\frac{\\Lambda c^2}{3}',
-            name: 'Friedmann Cosmological Equation',
-            field: 'Cosmology & Gravitation'
-        },
-        {
-            latex: 'T_H = \\frac{\\hbar c^3}{8\\pi G M k_B}',
-            name: 'Hawking Radiation Temperature',
-            field: 'Black Hole Physics'
-        },
-        {
-            latex: '\\mathbf{F} = q(\\mathbf{E} + \\mathbf{v} \\times \\mathbf{B})',
-            name: 'Lorentz Force Law',
-            field: 'Electromagnetism'
-        },
-        {
-            latex: '\\ell_P = \\sqrt{\\frac{\\hbar G}{c^3}}',
-            name: 'Planck Length Scale',
-            field: 'Quantum Gravity'
-        },
-        {
-            latex: 't_P = \\sqrt{\\frac{\\hbar G}{c^5}}',
-            name: 'Planck Time Scale',
-            field: 'Quantum Gravity'
-        },
+        // 1. The Four Maxwell Equations (Differential & Integral Forms)
         {
             latex: '\\nabla \\times \\mathbf{E} = -\\frac{\\partial \\mathbf{B}}{\\partial t}',
-            name: 'Faraday-Maxwell Induction Law',
-            field: 'Electrodynamics'
+            name: 'Faraday-Maxwell Induction Law'
         },
         {
-            latex: 'H(X) = -\\sum_{x} P(x) \\log_2 P(x)',
-            name: 'Shannon Information Entropy',
-            field: 'Information Theory'
+            latex: '\\oint_C \\mathbf{E} \\cdot d\\mathbf{l} = -\\frac{d}{dt} \\iint_S \\mathbf{B} \\cdot d\\mathbf{S}',
+            name: 'Faraday Law of Induction'
         },
         {
-            latex: '\\gamma = \\frac{1}{\\sqrt{1 - \\frac{v^2}{c^2}}}',
-            name: 'Lorentz Contraction Factor',
-            field: 'Special Relativity'
+            latex: '\\nabla \\times \\mathbf{H} = \\mathbf{J} + \\frac{\\partial \\mathbf{D}}{\\partial t}',
+            name: 'Ampère-Maxwell Circuital Law'
         },
         {
-            latex: 'E = \\hbar\\omega = h\\nu',
-            name: 'Planck-Einstein Energy Relation',
-            field: 'Quantum Theory'
+            latex: '\\oint_C \\mathbf{H} \\cdot d\\mathbf{l} = \\iint_S \\mathbf{J} \\cdot d\\mathbf{S} + \\frac{d}{dt} \\iint_S \\mathbf{D} \\cdot d\\mathbf{S}',
+            name: 'Ampère-Maxwell Circuital Law'
+        },
+        {
+            latex: '\\nabla \\cdot \\mathbf{D} = \\rho_v \\iff \\oiint_S \\mathbf{D} \\cdot d\\mathbf{S} = \\iiint_V \\rho_v \\, dV',
+            name: "Gauss's Law for Electricity"
+        },
+        {
+            latex: '\\nabla \\cdot \\mathbf{B} = 0 \\iff \\oiint_S \\mathbf{B} \\cdot d\\mathbf{S} = 0',
+            name: "Gauss's Law for Magnetism"
+        },
+
+        // 2. Vector Curl & Double/Triple Integrals
+        {
+            latex: '\\iint_S (\\nabla \\times \\mathbf{A}) \\cdot d\\mathbf{S} = \\oint_{\\partial S} \\mathbf{A} \\cdot d\\mathbf{r}',
+            name: "Stokes' Curl Theorem"
+        },
+        {
+            latex: '\\iiint_V (\\nabla \\cdot \\mathbf{F}) \\, dV = \\oiint_{\\partial V} \\mathbf{F} \\cdot d\\mathbf{S}',
+            name: "Gauss's Divergence Theorem"
+        },
+        {
+            latex: '\\nabla \\times (\\nabla \\times \\mathbf{A}) = \\nabla(\\nabla \\cdot \\mathbf{A}) - \\nabla^2 \\mathbf{A}',
+            name: 'Vector Laplacian of Curl'
+        },
+        {
+            latex: '\\nabla \\times (\\nabla \\phi) = \\mathbf{0} \\quad \\text{and} \\quad \\nabla \\cdot (\\nabla \\times \\mathbf{A}) = 0',
+            name: 'Curl of Gradient & Divergence of Curl'
+        },
+        {
+            latex: 'W_{em} = \\frac{1}{2} \\iiint_V \\left( \\varepsilon_0 |\\mathbf{E}|^2 + \\mu_0 |\\mathbf{H}|^2 \\right) dV',
+            name: 'Electromagnetic Field Energy Storage'
+        },
+        {
+            latex: '\\iint_S (\\mathbf{E} \\times \\mathbf{H}) \\cdot d\\mathbf{S} = -\\frac{\\partial}{\\partial t} \\iiint_V u_{em} \\, dV',
+            name: "Poynting's Energy Flow Theorem"
+        },
+        {
+            latex: '\\mathbf{B} = \\nabla \\times \\mathbf{A}, \\quad \\mathbf{E} = -\\nabla \\phi - \\frac{\\partial \\mathbf{A}}{\\partial t}',
+            name: 'Magnetic & Electric Potentials'
+        },
+
+        // 3. Electrical Machines & Electromechanical Energy Conversion
+        {
+            latex: 'T_e = \\frac{3}{\\omega_s} \\frac{V_{th}^2 \\left(\\frac{R_2\'}{s}\\right)}{\\left(R_{th} + \\frac{R_2\'}{s}\\right)^2 + (X_{th} + X_2\')^2}',
+            name: 'Induction Motor Torque-Slip Relation'
+        },
+        {
+            latex: 'T_e = \\left. \\frac{\\partial W_{co}}{\\partial \\theta_m} \\right|_{i=const} = \\frac{1}{2} i^2 \\frac{dL(\\theta)}{d\\theta_m}',
+            name: 'Electromagnetic Co-energy Machine Torque'
+        },
+        {
+            latex: 'P_e = \\frac{3 V_t E_f}{X_s} \\sin\\delta + \\frac{3 V_t^2}{2}\\left(\\frac{1}{X_q} - \\frac{1}{X_d}\\right)\\sin(2\\delta)',
+            name: 'Synchronous Machine Power-Angle Equation'
+        },
+        {
+            latex: 'E_{rms} = 4.44 f N \\Phi_{max} = \\sqrt{2}\\pi f N \\iint_S B_{max} \\, dS',
+            name: 'Transformer Induced EMF Equation'
+        },
+        {
+            latex: 'E_a = \\frac{P \\Phi Z N}{60 A} = k_e \\Phi \\omega_m, \\quad T_e = \\frac{P \\Phi Z I_a}{2\\pi A}',
+            name: 'DC Machine Back-EMF & Developed Torque'
+        },
+        {
+            latex: '\\omega_s = \\frac{120 f}{P}, \\quad s = \\frac{\\omega_s - \\omega_r}{\\omega_s}',
+            name: 'Synchronous Speed & Rotor Slip'
+        },
+        {
+            latex: '\\mathbf{F}_{em} = \\iiint_V (\\mathbf{J} \\times \\mathbf{B}) \\, dV = I (\\mathbf{L} \\times \\mathbf{B})',
+            name: 'Lorentz Force on Machine Conductors'
+        },
+        {
+            latex: '\\lambda_k = N_k \\iint_{S_k} \\mathbf{B} \\cdot d\\mathbf{S} = \\sum_{j} L_{kj} i_j',
+            name: 'Flux Linkage Surface Integral'
+        },
+        {
+            latex: '\\begin{bmatrix} v_d \\\\ v_q \\\\ v_0 \\end{bmatrix} = \\sqrt{\\frac{2}{3}}\\begin{bmatrix} \\cos\\theta & \\cos(\\theta-\\frac{2\\pi}{3}) & \\cos(\\theta+\\frac{2\\pi}{3}) \\\\ -\\sin\\theta & -\\sin(\\theta-\\frac{2\\pi}{3}) & -\\sin(\\theta+\\frac{2\\pi}{3}) \\\\ \\frac{1}{\\sqrt{2}} & \\frac{1}{\\sqrt{2}} & \\frac{1}{\\sqrt{2}} \\end{bmatrix}\\begin{bmatrix} v_a \\\\ v_b \\\\ v_c \\end{bmatrix}',
+            name: 'Park dq0 Vector Transformation'
         }
     ];
 
-    // Floating Quantum Operator Glyphs
-    const QUANTUM_SYMBOLS = [
-        'ℏ', 'ψ', 'Ψ', '∇', '∂_μ', '∫𝒟ϕ', '∑', 'γ^μ', 'g_μν', 'c', 
-        'G', 'k_B', 'ε₀', 'μ₀', 'α', 'Ω', 'λ_dB', 'σ', 'δ_μν', 'exp(iS/ℏ)', 
-        'Ĥ', 'p̂', 'x̂', '⊗', '⟨ψ|ϕ⟩', 'Tr(ρ)', '□'
+    // Floating LaTeX Math Symbols
+    const FLOATING_LATEX_SYMBOLS = [
+        '\\iint_S', '\\iiint_V', '\\oiint_S', '\\oint_C',
+        '\\nabla \\times \\mathbf{E}', '\\nabla \\times \\mathbf{H}', 
+        '\\nabla \\cdot \\mathbf{B}', '\\nabla \\cdot \\mathbf{D}',
+        '\\mathbf{F} = I(\\mathbf{L}\\times\\mathbf{B})',
+        '\\Phi_B = \\iint \\mathbf{B}\\cdot d\\mathbf{S}',
+        'T_e', '\\omega_s', '\\mu_0', '\\varepsilon_0',
+        '\\mathbf{J}_f', '\\lambda_{flux}', '\\mathbf{A}', '\\mathcal{E}_{ind}'
     ];
 
-    // Theme Color Palette
-    function getTheme() {
-        const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-        if (isLight) {
-            return {
-                isLight: true,
-                gridLine: 'rgba(0, 0, 0, 0.045)',
-                gridNode: 'rgba(0, 0, 0, 0.14)',
-                symbolBase: 'rgba(0, 0, 0, 0.26)',
-                symbolHover: '#000000',
-                connectionLine: 'rgba(0, 0, 0, 0.08)',
-                rippleColor: 'rgba(0, 0, 0, 0.25)',
-                lensGlow: 'rgba(0, 0, 0, 0.04)'
-            };
-        } else {
-            return {
-                isLight: false,
-                gridLine: 'rgba(255, 255, 255, 0.024)',
-                gridNode: 'rgba(255, 255, 255, 0.07)',
-                symbolBase: 'rgba(148, 163, 184, 0.14)',
-                symbolHover: 'rgba(56, 189, 248, 0.85)',
-                connectionLine: 'rgba(255, 255, 255, 0.035)',
-                rippleColor: 'rgba(56, 189, 248, 0.28)',
-                lensGlow: 'rgba(56, 189, 248, 0.06)'
-            };
-        }
-    }
+    // Subtle, non-intrusive watermark colors for Dark Mode
+    const theme = {
+        gridLine: 'rgba(56, 189, 248, 0.022)',
+        gridNode: 'rgba(56, 189, 248, 0.06)',
+        symbolBase: 'rgba(148, 163, 184, 0.10)',
+        connectionLine: 'rgba(56, 189, 248, 0.025)'
+    };
 
     let equations = [];
     let symbols = [];
@@ -216,10 +165,10 @@ export function initPhysicsBackground() {
         gridPoints = [];
 
         const isMobile = width < 768;
-        const eqCount = isMobile ? 6 : Math.min(Math.floor((width * height) / 80000) + 4, EQUATIONS_DATA.length);
+        const eqCount = isMobile ? 5 : Math.min(Math.floor((width * height) / 90000) + 3, EQUATIONS_DATA.length);
         const shuffled = [...EQUATIONS_DATA].sort(() => 0.5 - Math.random());
 
-        // Grid-based initial distribution
+        // Grid-based initial distribution to prevent clumping
         const cols = isMobile ? 2 : 4;
         const rows = Math.ceil(eqCount / cols);
         const cellW = width / cols;
@@ -244,14 +193,10 @@ export function initPhysicsBackground() {
                 renderedLatexHtml = `<span class="latex-fallback">${data.latex}</span>`;
             }
 
-            // Create DOM Node for LaTeX equation
+            // Create non-interactable DOM Node for LaTeX equation
             const node = document.createElement('div');
             node.className = 'physics-equation-node';
-            node.innerHTML = `
-                <div class="latex-formula">${renderedLatexHtml}</div>
-                <div class="latex-code-badge">\\LaTeX: ${data.latex}</div>
-                <div class="equation-meta-badge">[ ${data.field} • ${data.name} ]</div>
-            `;
+            node.innerHTML = `<div class="latex-formula">${renderedLatexHtml}</div>`;
             equationsLayer.appendChild(node);
 
             equations.push({
@@ -261,45 +206,58 @@ export function initPhysicsBackground() {
                 y: y,
                 baseX: x,
                 baseY: y,
-                vx: (Math.random() - 0.5) * 0.16,
-                vy: (Math.random() - 0.5) * 0.16,
-                hoverProgress: 0,
+                vx: (Math.random() - 0.5) * 0.12,
+                vy: (Math.random() - 0.5) * 0.12,
                 pulseOffset: Math.random() * Math.PI * 2,
-                floatSpeed: Math.random() * 0.0012 + 0.0008
+                floatSpeed: Math.random() * 0.0008 + 0.0006
             });
         }
 
-        // Quantum Operator Symbols
-        const symbolCount = isMobile ? 12 : Math.min(Math.floor((width * height) / 42000), 28);
+        // Floating LaTeX Symbols (non-interactable background glyphs)
+        const symbolCount = isMobile ? 10 : Math.min(Math.floor((width * height) / 48000), 22);
         for (let i = 0; i < symbolCount; i++) {
-            const sym = QUANTUM_SYMBOLS[Math.floor(Math.random() * QUANTUM_SYMBOLS.length)];
+            const rawSym = FLOATING_LATEX_SYMBOLS[Math.floor(Math.random() * FLOATING_LATEX_SYMBOLS.length)];
+            
+            let displayChar = rawSym
+                .replace('\\iint_S', '∬_S')
+                .replace('\\iiint_V', '∭_V')
+                .replace('\\oiint_S', '∯_S')
+                .replace('\\oint_C', '∮_C')
+                .replace('\\nabla \\times \\mathbf{E}', '∇ × E')
+                .replace('\\nabla \\times \\mathbf{H}', '∇ × H')
+                .replace('\\nabla \\cdot \\mathbf{B}', '∇ · B = 0')
+                .replace('\\nabla \\cdot \\mathbf{D}', '∇ · D = ρ')
+                .replace('\\mathbf{F} = I(\\mathbf{L}\\times\\mathbf{B})', 'F = I(L × B)')
+                .replace('\\Phi_B = \\iint \\mathbf{B}\\cdot d\\mathbf{S}', 'Φ_B = ∬ B·dS')
+                .replace('\\mu_0', 'μ₀')
+                .replace('\\varepsilon_0', 'ε₀')
+                .replace('\\mathbf{J}_f', 'J_f')
+                .replace('\\lambda_{flux}', 'λ_flux')
+                .replace('\\mathbf{A}', 'A_vec')
+                .replace('\\mathcal{E}_{ind}', 'ℰ_ind')
+                .replace('\\omega_s', 'ω_s');
+
             const x = Math.random() * width;
             const y = Math.random() * height;
             symbols.push({
-                char: sym,
+                char: displayChar,
                 x: x,
                 y: y,
-                baseX: x,
-                baseY: y,
-                vx: (Math.random() - 0.5) * 0.25,
-                vy: (Math.random() - 0.5) * 0.25,
-                size: Math.random() * 8 + 14,
-                opacity: Math.random() * 0.5 + 0.5,
-                rot: Math.random() * Math.PI * 2,
-                rotSpeed: (Math.random() - 0.5) * 0.003,
-                hoverProgress: 0
+                vx: (Math.random() - 0.5) * 0.18,
+                vy: (Math.random() - 0.5) * 0.18,
+                size: Math.random() * 5 + 13,
+                rot: (Math.random() - 0.5) * 0.3,
+                rotSpeed: (Math.random() - 0.5) * 0.0015
             });
         }
 
-        // Spacetime Coordinate Grid Points
-        const gridSpacing = isMobile ? 120 : 100;
+        // Spacetime & Electromagnetic Coordinate Lattice
+        const gridSpacing = isMobile ? 130 : 110;
         for (let gx = 0; gx < width + gridSpacing; gx += gridSpacing) {
             for (let gy = 0; gy < height + gridSpacing; gy += gridSpacing) {
                 gridPoints.push({
                     x: gx,
-                    y: gy,
-                    baseX: gx,
-                    baseY: gy
+                    y: gy
                 });
             }
         }
@@ -321,48 +279,6 @@ export function initPhysicsBackground() {
     handleResize();
     window.addEventListener('resize', handleResize);
 
-    // Mouse / Touch Event Listeners
-    const onMouseMove = (e) => {
-        mouse.targetX = e.clientX;
-        mouse.targetY = e.clientY;
-        mouse.isHovered = true;
-    };
-
-    const onMouseLeave = () => {
-        mouse.targetX = -2000;
-        mouse.targetY = -2000;
-        mouse.isHovered = false;
-    };
-
-    const onPointerDown = (e) => {
-        const x = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : width / 2);
-        const y = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : height / 2);
-        
-        ripples.push({
-            x: x,
-            y: y,
-            radius: 10,
-            maxRadius: Math.max(width, height) * 0.45,
-            opacity: 0.7,
-            speed: 4.5
-        });
-    };
-
-    window.addEventListener('mousemove', onMouseMove, { passive: true });
-    document.addEventListener('mouseleave', onMouseLeave);
-    window.addEventListener('pointerdown', onPointerDown, { passive: true });
-
-    // Touch support for mobile devices
-    window.addEventListener('touchmove', (e) => {
-        if (e.touches && e.touches[0]) {
-            mouse.targetX = e.touches[0].clientX;
-            mouse.targetY = e.touches[0].clientY;
-            mouse.isHovered = true;
-        }
-    }, { passive: true });
-
-    window.addEventListener('touchend', onMouseLeave);
-
     // Animation Loop
     let animationFrameId = null;
     let lastTime = performance.now();
@@ -371,85 +287,36 @@ export function initPhysicsBackground() {
         const delta = Math.min((currentTime - lastTime) / 1000, 0.1);
         lastTime = currentTime;
 
-        // Smooth mouse position damping
-        mouse.x += (mouse.targetX - mouse.x) * 0.08;
-        mouse.y += (mouse.targetY - mouse.y) * 0.08;
+        // Check theme: If light mode, do NOT render or display background equations
+        const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+        if (isLight) {
+            ctx.clearRect(0, 0, width, height);
+            if (equationsLayer.style.display !== 'none') {
+                equationsLayer.style.display = 'none';
+            }
+            animationFrameId = requestAnimationFrame(render);
+            return;
+        } else {
+            if (equationsLayer.style.display !== 'block') {
+                equationsLayer.style.display = 'block';
+            }
+        }
 
-        const theme = getTheme();
-
-        // Clear Canvas
+        // Clear Canvas in Dark Mode
         ctx.clearRect(0, 0, width, height);
 
-        // Draw Spacetime Coordinate Grid with Gravitational Curvature
+        // Draw Spacetime Coordinate Grid (subtle dark watermark)
         ctx.lineWidth = 1;
         ctx.strokeStyle = theme.gridLine;
 
-        // Interactive Gravitational Lensing Glow around Cursor
-        if (mouse.isHovered && mouse.x > 0 && mouse.y > 0) {
-            const glowGradient = ctx.createRadialGradient(
-                mouse.x, mouse.y, 0,
-                mouse.x, mouse.y, mouse.radius * 1.5
-            );
-            glowGradient.addColorStop(0, theme.lensGlow);
-            glowGradient.addColorStop(1, 'transparent');
-            ctx.fillStyle = glowGradient;
-            ctx.beginPath();
-            ctx.arc(mouse.x, mouse.y, mouse.radius * 1.5, 0, Math.PI * 2);
-            ctx.fill();
-        }
-
-        // Draw Metric Grid Nodes & Deflected Lattice
+        // Draw Metric Grid Nodes
+        ctx.fillStyle = theme.gridNode;
         for (let i = 0; i < gridPoints.length; i++) {
             const gp = gridPoints[i];
-            const dx = mouse.x - gp.baseX;
-            const dy = mouse.y - gp.baseY;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-
-            // Gravitational distortion of metric lattice near cursor
-            if (dist < mouse.radius * 1.3 && dist > 1) {
-                const force = (1 - dist / (mouse.radius * 1.3)) * 14;
-                gp.x = gp.baseX - (dx / dist) * force;
-                gp.y = gp.baseY - (dy / dist) * force;
-            } else {
-                gp.x += (gp.baseX - gp.x) * 0.08;
-                gp.y += (gp.baseY - gp.y) * 0.08;
-            }
-
-            // Draw subtle metric node crosshair / dot
-            ctx.fillStyle = theme.gridNode;
             ctx.fillRect(gp.x - 1, gp.y - 1, 2, 2);
         }
 
-        // Draw Gravitational Ripples
-        for (let i = ripples.length - 1; i >= 0; i--) {
-            const r = ripples[i];
-            r.radius += r.speed;
-            r.opacity -= 0.012;
-
-            if (r.opacity <= 0 || r.radius >= r.maxRadius) {
-                ripples.splice(i, 1);
-                continue;
-            }
-
-            ctx.save();
-            ctx.beginPath();
-            ctx.arc(r.x, r.y, r.radius, 0, Math.PI * 2);
-            ctx.strokeStyle = theme.rippleColor.replace(/[\d\.]+\)$/, `${Math.max(0, r.opacity * 0.5)})`);
-            ctx.lineWidth = 1.5;
-            ctx.stroke();
-
-            // Secondary wave ring
-            if (r.radius > 25) {
-                ctx.beginPath();
-                ctx.arc(r.x, r.y, r.radius - 20, 0, Math.PI * 2);
-                ctx.strokeStyle = theme.rippleColor.replace(/[\d\.]+\)$/, `${Math.max(0, r.opacity * 0.25)})`);
-                ctx.lineWidth = 1;
-                ctx.stroke();
-            }
-            ctx.restore();
-        }
-
-        // Draw Quantum Symbols & Entanglement Connections
+        // Draw Floating LaTeX Symbols & Subtle Entanglement Lines
         for (let i = 0; i < symbols.length; i++) {
             const s = symbols[i];
 
@@ -462,57 +329,42 @@ export function initPhysicsBackground() {
             if (s.y < -30) s.y = height + 30;
             if (s.y > height + 30) s.y = -30;
 
-            const dx = mouse.x - s.x;
-            const dy = mouse.y - s.y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-
-            const isNear = dist < mouse.radius * 0.9;
-            s.hoverProgress += ((isNear ? 1 : 0) - s.hoverProgress) * 0.1;
-
             ctx.save();
             ctx.translate(s.x, s.y);
             ctx.rotate(s.rot);
 
-            ctx.font = `italic ${s.size}px "EB Garamond", "STIX Two Text", "Times New Roman", serif`;
+            ctx.font = `italic ${s.size}px "EB Garamond", "STIX Two Text", "KaTeX_Math", "Times New Roman", serif`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-
-            if (s.hoverProgress > 0.05) {
-                ctx.fillStyle = theme.symbolHover;
-                ctx.shadowColor = theme.isLight ? 'rgba(0, 0, 0, 0.25)' : 'rgba(56, 189, 248, 0.7)';
-                ctx.shadowBlur = 8 * s.hoverProgress;
-            } else {
-                ctx.fillStyle = theme.symbolBase;
-            }
-
+            ctx.fillStyle = theme.symbolBase;
             ctx.fillText(s.char, 0, 0);
             ctx.restore();
 
-            // Delicate quantum entanglement lines between close symbols
+            // Subtle connections between close symbols
             for (let j = i + 1; j < symbols.length; j++) {
                 const s2 = symbols[j];
                 const sdx = s.x - s2.x;
                 const sdy = s.y - s2.y;
                 const sdist = Math.sqrt(sdx * sdx + sdy * sdy);
 
-                if (sdist < 90) {
+                if (sdist < 80) {
                     ctx.beginPath();
                     ctx.moveTo(s.x, s.y);
                     ctx.lineTo(s2.x, s2.y);
                     ctx.strokeStyle = theme.connectionLine;
-                    ctx.lineWidth = 0.75;
+                    ctx.lineWidth = 0.6;
                     ctx.stroke();
                 }
             }
         }
 
-        // Animate & Position LaTeX Equations DOM Nodes
+        // Animate & Position LaTeX Equations DOM Nodes (gentle, smooth drift)
         const time = currentTime * 0.001;
         for (let i = 0; i < equations.length; i++) {
             const eq = equations[i];
 
-            const floatOffsetY = Math.sin(time * eq.floatSpeed * 1000 + eq.pulseOffset) * 6;
-            const floatOffsetX = Math.cos(time * eq.floatSpeed * 800 + eq.pulseOffset) * 4;
+            const floatOffsetY = Math.sin(time * eq.floatSpeed * 1000 + eq.pulseOffset) * 5;
+            const floatOffsetX = Math.cos(time * eq.floatSpeed * 800 + eq.pulseOffset) * 3;
 
             eq.x += eq.vx;
             eq.y += eq.vy;
@@ -526,31 +378,8 @@ export function initPhysicsBackground() {
             const renderX = eq.x + floatOffsetX;
             const renderY = eq.y + floatOffsetY;
 
-            // Check distance from cursor for gravitational deflection & hover state
-            const dx = mouse.x - renderX;
-            const dy = mouse.y - renderY;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-
-            const isTarget = dist < mouse.radius * 1.1;
-            eq.hoverProgress += ((isTarget ? 1 : 0) - eq.hoverProgress) * 0.12;
-
-            // Gravitational lens deflection
-            let drawX = renderX;
-            let drawY = renderY;
-            if (dist < mouse.radius * 1.3 && dist > 2) {
-                const warp = (1 - dist / (mouse.radius * 1.3)) * 14;
-                drawX += (dx / dist) * warp;
-                drawY += (dy / dist) * warp;
-            }
-
-            // Update DOM Node transform
             if (eq.el) {
-                eq.el.style.transform = `translate3d(${drawX}px, ${drawY}px, 0px) translate(-50%, -50%)`;
-                if (eq.hoverProgress > 0.05) {
-                    eq.el.classList.add('is-hovered');
-                } else {
-                    eq.el.classList.remove('is-hovered');
-                }
+                eq.el.style.transform = `translate3d(${renderX}px, ${renderY}px, 0px) translate(-50%, -50%)`;
             }
         }
 
@@ -564,9 +393,6 @@ export function initPhysicsBackground() {
     return () => {
         if (animationFrameId) cancelAnimationFrame(animationFrameId);
         window.removeEventListener('resize', handleResize);
-        window.removeEventListener('mousemove', onMouseMove);
-        document.removeEventListener('mouseleave', onMouseLeave);
-        window.removeEventListener('pointerdown', onPointerDown);
         if (canvas) canvas.remove();
         if (equationsLayer) equationsLayer.remove();
     };
