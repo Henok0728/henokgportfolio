@@ -1,9 +1,7 @@
-// Immediately restore theme preference from localStorage to avoid theme flash
+// Immediately restore theme preference (defaults to dark mode)
 export const restoreTheme = () => {
-    const savedTheme = localStorage.getItem('portfolio-theme');
-    if (savedTheme === 'light') {
-        document.documentElement.setAttribute('data-theme', 'light');
-    }
+    document.documentElement.removeAttribute('data-theme');
+    localStorage.setItem('portfolio-theme', 'dark');
 };
 
 // Light / Dark Mode Toggle Event Listener

@@ -5,14 +5,14 @@ import { initNavigation } from './modules/navigation.js';
 import { initTypewriter } from './modules/typewriter.js';
 import { init3DCardTilt } from './modules/3d-card.js';
 import { initContactForm } from './modules/contact-form.js';
+import { initPhysicsBackground } from './modules/physics-bg.js';
 
 // Immediately restore theme preference from localStorage to avoid theme flash
 restoreTheme();
 
 const init = () => {
-    // Remove space science background canvas if present
-    const spaceBgCanvas = document.getElementById('space-science-bg');
-    if (spaceBgCanvas) spaceBgCanvas.remove();
+    // Initialize modern physics equations background
+    initPhysicsBackground();
 
     initTheme();
     initNavigation();
