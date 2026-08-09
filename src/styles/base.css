@@ -28,8 +28,19 @@ body {
     position: relative;
 }
 
-/* Modern Physics Equations Background Canvas */
+/* Modern Physics Equations Background Canvas & LaTeX Layer */
 #physics-bg-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -3;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+}
+
+#physics-equations-layer {
     position: fixed;
     top: 0;
     left: 0;
@@ -37,7 +48,100 @@ body {
     height: 100vh;
     z-index: -2;
     pointer-events: none;
-    transition: opacity 0.5s ease;
+    overflow: hidden;
+}
+
+.physics-equation-node {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    will-change: transform, opacity;
+    transform-origin: center center;
+    color: rgba(240, 246, 252, 0.32);
+    user-select: none;
+    transition: color 0.3s ease, filter 0.3s ease;
+}
+
+[data-theme="light"] .physics-equation-node {
+    color: rgba(0, 0, 0, 0.45);
+}
+
+.physics-equation-node .katex-display {
+    margin: 0;
+}
+
+.physics-equation-node .katex {
+    font-size: 1.15rem;
+    text-shadow: none;
+    transition: font-size 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.physics-equation-node.is-hovered {
+    color: #ffffff;
+    filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.6));
+    z-index: 10;
+}
+
+[data-theme="light"] .physics-equation-node.is-hovered {
+    color: #000000;
+    filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.25));
+}
+
+.physics-equation-node.is-hovered .katex {
+    font-size: 1.28rem;
+}
+
+.latex-code-badge {
+    opacity: 0;
+    transform: translateY(4px);
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.5px;
+    padding: 3px 9px;
+    border-radius: 4px;
+    margin-top: 6px;
+    background: rgba(10, 15, 29, 0.92);
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    color: #38bdf8;
+    backdrop-filter: blur(8px);
+    white-space: nowrap;
+}
+
+[data-theme="light"] .latex-code-badge {
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    color: #000000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.equation-meta-badge {
+    opacity: 0;
+    transform: translateY(4px);
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 3px;
+    color: rgba(148, 163, 184, 0.92);
+    white-space: nowrap;
+}
+
+[data-theme="light"] .equation-meta-badge {
+    color: rgba(0, 0, 0, 0.88);
+}
+
+.physics-equation-node.is-hovered .latex-code-badge,
+.physics-equation-node.is-hovered .equation-meta-badge {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 /* Background Ambient Quantum Lighting Overlay */
