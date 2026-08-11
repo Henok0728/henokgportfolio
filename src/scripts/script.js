@@ -6,13 +6,15 @@ import { initTypewriter } from './modules/typewriter.js';
 import { init3DCardTilt } from './modules/3d-card.js';
 import { initContactForm } from './modules/contact-form.js';
 import { initPhysicsBackground } from './modules/physics-bg.js';
+import { initLightBackground } from './modules/light-bg.js';
 
 // Immediately restore theme preference from localStorage to avoid theme flash
 restoreTheme();
 
 const init = () => {
-    // Initialize modern physics equations background
+    // Initialize dark physics equations background & light Ethiopian harps/circuits background
     initPhysicsBackground();
+    initLightBackground();
 
     initTheme();
     initNavigation();

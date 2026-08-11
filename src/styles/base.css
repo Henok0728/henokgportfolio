@@ -53,6 +53,24 @@ body {
     overflow: hidden;
 }
 
+/* Ethiopian Harps & Circuits Background Canvas (Light Mode Only) */
+#light-bg-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -3;
+    pointer-events: none !important;
+    user-select: none;
+    transition: opacity 0.5s ease;
+    display: none;
+}
+
+[data-theme="light"] #light-bg-canvas {
+    display: block !important;
+}
+
 /* Strictly hide physics background in light mode */
 [data-theme="light"] #physics-bg-canvas,
 [data-theme="light"] #physics-equations-layer {
