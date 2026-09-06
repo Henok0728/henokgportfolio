@@ -58,7 +58,7 @@ export function initSpaceBackground() {
         const isLight = document.documentElement.getAttribute('data-theme') === 'light';
         if (isLight) {
             return {
-                bg: '248, 250, 252',
+                bg: '239, 236, 230',
                 star: '15, 23, 42',           // Dark charcoal (#0f172a)
                 line: '15, 23, 42',
                 moonCore: '240, 243, 246',
@@ -68,10 +68,10 @@ export function initSpaceBackground() {
             };
         } else {
             return {
-                bg: '0, 0, 0',
-                star: '255, 255, 255',       // Pure white (#ffffff)
-                line: '255, 255, 255',
-                moonCore: '12, 12, 14',
+                bg: '18, 18, 18',
+                star: '242, 242, 240',
+                line: '242, 242, 240',
+                moonCore: '22, 22, 22',
                 moonLine: '255, 255, 255',
                 grid: 'rgba(255, 255, 255, 0.05)',
                 text: 'rgba(255, 255, 255, 0.35)'

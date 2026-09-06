@@ -51,7 +51,7 @@
 
 [data-theme="light"] .input-group input,
 [data-theme="light"] .input-group textarea {
-    background: rgba(241, 245, 249, 0.8);
+    background: hsl(var(--h) var(--s) 88% / 0.85);
     border-color: rgba(15, 23, 42, 0.15);
     color: var(--text-primary);
 }

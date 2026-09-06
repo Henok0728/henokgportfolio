@@ -1,19 +1,57 @@
 :root {
-    --bg-color: #000000;
-    --surface-color: rgba(15, 15, 15, 0.75); 
-    --surface-border: rgba(255, 255, 255, 0.08); 
+    /* Palette knobs — edit H / S / L here.
+       H = hue (0–360), S = saturation (0–100%), L = lightness (0% black → 100% white) */
 
-    --text-primary: #ffffff; 
-    --text-secondary: #888888; 
-    --text-disabled: #444444; 
+    --h: 0;
+    --s: 0%;
 
-    --accent-color: #ffffff; 
-    --accent-glow: rgba(255, 255, 255, 0.15); 
-    --accent-hover: #e5e5e5;    
+    --bg-l: 7%;
+    --surface-l: 10%;
+    --text-l: 95%;
+    --text-muted-l: 53%;
+    --text-disabled-l: 27%;
+    --accent-hover-l: 84%;
+    --gradient-mid-l: 64%;
 
-    --gradient-text: linear-gradient(180deg, #ffffff 0%, #a3a3a3 100%);     
-    --gradient-surface: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%); 
-    --gradient-glow: linear-gradient(90deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
+    --bg-color: hsl(var(--h) var(--s) var(--bg-l));
+    --surface-color: hsl(var(--h) var(--s) var(--surface-l) / 0.78);
+    --surface-border: hsl(var(--h) var(--s) var(--text-l) / 0.08);
+    --glass-bg: hsl(var(--h) var(--s) var(--bg-l) / 0.78);
+    --glass-bg-strong: hsl(var(--h) var(--s) var(--bg-l) / 0.94);
+
+    --text-primary: hsl(var(--h) var(--s) var(--text-l));
+    --text-secondary: hsl(var(--h) var(--s) var(--text-muted-l));
+    --text-disabled: hsl(var(--h) var(--s) var(--text-disabled-l));
+
+    --accent-color: hsl(var(--h) var(--s) var(--text-l));
+    --accent-glow: hsl(var(--h) var(--s) var(--text-l) / 0.15);
+    --accent-hover: hsl(var(--h) var(--s) var(--accent-hover-l));
+    --surface-hover: hsl(var(--h) var(--s) calc(var(--bg-l) + 6%));
+
+    --gradient-text: linear-gradient(
+        180deg,
+        hsl(var(--h) var(--s) var(--text-l)) 0%,
+        hsl(var(--h) var(--s) var(--gradient-mid-l)) 100%
+    );
+    --gradient-surface: linear-gradient(
+        135deg,
+        hsl(var(--h) var(--s) var(--text-l) / 0.05) 0%,
+        hsl(var(--h) var(--s) var(--text-l) / 0.01) 100%
+    );
+    --gradient-glow: linear-gradient(
+        90deg,
+        hsl(var(--h) var(--s) var(--text-l) / 0.1) 0%,
+        hsl(var(--h) var(--s) var(--text-l) / 0) 100%
+    );
+
+    --ink-h: var(--h);
+    --ink-s: var(--s);
+    --ink-l: var(--text-l);
+    --ink: hsl(var(--ink-h) var(--ink-s) var(--ink-l));
+
+    --net-size: 48px;
+    --net-line: hsl(var(--h) var(--s) var(--text-l) / 0.08);
+    --net-dot: hsl(var(--h) var(--s) var(--text-l) / 0.2);
 
     --nav-height: 80px;
     --font-family: 'Inter', sans-serif;
@@ -21,19 +59,53 @@
 }
 
 [data-theme="light"] {
-    --bg-color: #ffffff;
-    --surface-color: rgba(255, 255, 255, 0.75);
-    --surface-border: rgba(15, 23, 42, 0.1);
+    --h: 40;
+    --s: 18%;
 
-    --text-primary: #0f172a;
-    --text-secondary: #475569;
-    --text-disabled: #94a3b8;
+    --bg-l: 92%;
+    --surface-l: 97%;
+    --text-l: 11%;
+    --text-muted-l: 38%;
+    --text-disabled-l: 65%;
+    --accent-hover-l: 17%;
+    --gradient-mid-l: 27%;
 
-    --accent-color: #0f172a;
-    --accent-glow: rgba(15, 23, 42, 0.12);
-    --accent-hover: #1e293b;
+    --ink-h: 222;
+    --ink-s: 47%;
+    --ink-l: 11%;
 
-    --gradient-text: linear-gradient(180deg, #0f172a 0%, #334155 100%);
-    --gradient-surface: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(241, 245, 249, 0.8) 100%);
-    --gradient-glow: linear-gradient(90deg, rgba(15, 23, 42, 0.08) 0%, rgba(15, 23, 42, 0) 100%);
+    --bg-color: hsl(var(--h) var(--s) var(--bg-l));
+    --surface-color: hsl(var(--h) var(--s) var(--surface-l) / 0.78);
+    --surface-border: hsl(var(--ink-h) var(--ink-s) var(--ink-l) / 0.1);
+    --glass-bg: hsl(var(--h) var(--s) var(--bg-l) / 0.88);
+    --glass-bg-strong: hsl(var(--h) var(--s) var(--bg-l) / 0.96);
+
+    --text-primary: hsl(var(--ink-h) var(--ink-s) var(--ink-l));
+    --text-secondary: hsl(var(--ink-h) 16% 47%);
+    --text-disabled: hsl(var(--ink-h) 20% 65%);
+
+    --accent-color: hsl(var(--ink-h) var(--ink-s) var(--ink-l));
+    --accent-glow: hsl(var(--ink-h) var(--ink-s) var(--ink-l) / 0.12);
+    --accent-hover: hsl(var(--ink-h) 33% var(--accent-hover-l));
+    --surface-hover: hsl(var(--h) var(--s) 96%);
+    --ink: hsl(var(--ink-h) var(--ink-s) var(--ink-l));
+
+    --gradient-text: linear-gradient(
+        180deg,
+        hsl(var(--ink-h) var(--ink-s) var(--ink-l)) 0%,
+        hsl(var(--ink-h) 19% var(--gradient-mid-l)) 100%
+    );
+    --gradient-surface: linear-gradient(
+        135deg,
+        hsl(var(--h) var(--s) var(--surface-l) / 0.95) 0%,
+        hsl(var(--h) var(--s) 88% / 0.85) 100%
+    );
+    --gradient-glow: linear-gradient(
+        90deg,
+        hsl(var(--ink-h) var(--ink-s) var(--ink-l) / 0.08) 0%,
+        hsl(var(--ink-h) var(--ink-s) var(--ink-l) / 0) 100%
+    );
+
+    --net-line: hsl(var(--ink-h) var(--ink-s) var(--ink-l) / 0.09);
+    --net-dot: hsl(var(--ink-h) var(--ink-s) var(--ink-l) / 0.18);
 }
