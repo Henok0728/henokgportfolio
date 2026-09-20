@@ -28,9 +28,22 @@ function htmlIncludePlugin() {
   };
 }
 
+function copyImagesPlugin() {
+  return {
+    name: 'copy-images-plugin',
+    closeBundle() {
+      const srcImages = path.resolve(__dirname, 'src/images');
+      const distImages = path.resolve(__dirname, 'dist/images');
+      if (fs.existsSync(srcImages)) {
+        fs.cpSync(srcImages, distImages, { recursive: true, force: true });
+      }
+    }
+  };
+}
+
 export default defineConfig({
   root: 'src',
-  plugins: [htmlIncludePlugin()],
+  plugins: [htmlIncludePlugin(), copyImagesPlugin()],
   build: {
     outDir: '../dist',
     emptyOutDir: true

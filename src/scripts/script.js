@@ -7,14 +7,16 @@ import { init3DCardTilt } from './modules/3d-card.js';
 import { initContactForm } from './modules/contact-form.js';
 import { initPhysicsBackground } from './modules/physics-bg.js';
 import { initLightBackground } from './modules/light-bg.js';
+import { initAnalytics } from './modules/analytics.js';
 
 // Immediately restore theme preference from localStorage to avoid theme flash
 restoreTheme();
 
 const init = () => {
-    // Initialize dark physics equations background & light Ethiopian harps/circuits background
+    // Initialize dark physics equations background & light electronic/transistor circuits background
     initPhysicsBackground();
     initLightBackground();
+    initAnalytics();
 
     initTheme();
     initNavigation();
