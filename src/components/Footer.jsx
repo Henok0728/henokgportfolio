@@ -3,7 +3,15 @@ export default function Footer() {
     <footer>
       <div className="footer-content">
         <p>&copy; {new Date().getFullYear()} Henok Gizaw</p>
+        <p>{new Date().getHours().toString() + " : " + new Date().getMinutes().toString() + " : " + new Date().getSeconds().toString()}</p>
         <div className="social-links">
+            <a
+            href="mailto:henokgizaw06@gmail.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          > 
+           Gmail
+          </a>
           <a
             href="https://github.com/Henok0728"
             target="_blank"
@@ -11,12 +19,13 @@ export default function Footer() {
           >
             GitHub
           </a>
+        
           <a
             href="https://www.linkedin.com/in/henokgizawnigatu"
             target="_blank"
             rel="noopener noreferrer"
-          >
-            LinkedIn
+          > 
+           LinkedIn
           </a>
           <a
             href="https://t.me/henokastr"
@@ -35,7 +44,7 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Nike-style Integrated Background Graphic Slogan */}
+
       <div className="nike-slogan-layout" aria-hidden="true">
         <div className="slogan-bg-glow"></div>
         <span className="slogan-text">LETS BUILD TOGETHER!</span>
