@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import emailjs from '@emailjs/browser';
+import { trackEvent } from '../scripts/modules/analytics';
 
 export default function Contact() {
   const formRef = useRef(null);
@@ -30,6 +31,8 @@ export default function Contact() {
       };
 
       await emailjs.send(serviceId, templateId, templateParams, publicKey);
+
+      trackEvent('Contact Message Sent');
 
       setStatus({
         loading: false,

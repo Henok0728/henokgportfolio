@@ -10,19 +10,19 @@ import Certificates from './components/Certificates';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 
+import { Analytics } from '@vercel/analytics/react';
+
 import { initPhysicsBackground } from './scripts/modules/physics-bg';
 import { initLightBackground } from './scripts/modules/light-bg';
-import { initAnalytics } from './scripts/modules/analytics';
 import { initScrollObserver } from './scripts/modules/animations';
 import { init3DCardTilt } from './scripts/modules/3d-card';
 import { morphProfile } from './scripts/modules/profile-morph';
 
 export default function App() {
   useEffect(() => {
-    // Initialize background engines & analytics
+    // Initialize background engines
     initPhysicsBackground();
     initLightBackground();
-    initAnalytics();
 
     // Scroll reveal observer & 3D tilt effects
     initScrollObserver();
@@ -65,6 +65,7 @@ export default function App() {
         <Contact />
       </main>
       <Footer />
+      <Analytics />
     </>
   );
 }

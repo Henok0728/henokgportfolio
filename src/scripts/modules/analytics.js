@@ -3,13 +3,20 @@
  * Automatically tracks page views, unique visitors, referrers, and geography
  * on your Vercel project dashboard.
  */
-import { inject } from '@vercel/analytics';
+import { track } from '@vercel/analytics';
 
-export function initAnalytics() {
-    try {
-        inject();
-    } catch (err) {
-        // Graceful fallback if running offline or in unsupported environment
-        console.debug('Vercel Analytics init note:', err);
-    }
+/**
+ * Track custom user interactions (e.g. contact form submission, project clicks)
+ * @param {string} eventName
+ * @param {Record<string, string | number | boolean>} [properties]
+ */
+export function trackEvent(eventName, properties) {
+  try {
+    track(eventName, properties);
+  } catch (err) {
+    // Graceful fallback in development or unsupported environment
+    console.debug(`[Vercel Analytics] Track event '${eventName}':`, err);
+  }
 }
+
+export { track };
