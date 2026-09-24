@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import emailjs from '@emailjs/browser';
 
 export default function Contact() {
+  const formRef = useRef(null);
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState({ loading: false, message: 'Send Message', style: {} });
 
@@ -10,45 +12,41 @@ export default function Contact() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_default';
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_default';
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'public_key_default';
+
     setStatus({ loading: true, message: 'Sending...', style: {} });
 
     try {
-      const response = await fetch('https://formspree.io/f/xykvppky', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+      const templateParams = {
+        name: formData.name,
+        from_name: formData.name,
+        email: formData.email,
+        from_email: formData.email,
+        reply_to: formData.email,
+        message: formData.message,
+      };
 
-      const data = await response.json();
+      await emailjs.send(serviceId, templateId, templateParams, publicKey);
 
-      if (response.ok) {
-        setStatus({
-          loading: false,
-          message: '✓ Message Sent!',
-          style: { backgroundColor: '#10b981' },
-        });
-        setFormData({ name: '', email: '', message: '' });
-      } else {
-        let errorMsg = 'Submission Failed';
-        if (data.errors && data.errors.length > 0) {
-          errorMsg = data.errors[0].message;
-        } else if (data.error) {
-          errorMsg = data.error;
-        }
-        setStatus({
-          loading: false,
-          message: errorMsg,
-          style: { backgroundColor: '#ef4444' },
-        });
-      }
-    } catch (err) {
-      console.error('Contact Form Error:', err);
       setStatus({
         loading: false,
-        message: 'Network Error',
+        message: '✓ Message Sent!',
+        style: { backgroundColor: '#10b981' },
+      });
+      setFormData({ name: '', email: '', message: '' });
+    } catch (err) {
+      console.error('EmailJS Error:', err);
+      const errorMsg =
+        serviceId === 'service_default'
+          ? 'Set EmailJS Keys in .env'
+          : err?.text || 'Failed to send';
+
+      setStatus({
+        loading: false,
+        message: errorMsg,
         style: { backgroundColor: '#ef4444' },
       });
     }
@@ -65,7 +63,7 @@ export default function Contact() {
         <div className="header-line"></div>
       </div>
       <div className="contact-container">
-        <form className="contact-form" onSubmit={handleSubmit}>
+        <form className="contact-form" ref={formRef} onSubmit={handleSubmit}>
           <div className="input-group">
             <label htmlFor="name">Name</label>
             <input

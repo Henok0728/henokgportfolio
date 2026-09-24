@@ -19,6 +19,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "@vercel/analytics": "^2.0.1",
     "devicons": "^2.0.1",
     "katex": "^0.18.3",

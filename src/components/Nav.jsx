@@ -69,8 +69,8 @@ export default function Nav() {
     { href: '#home', label: 'Home', id: 'home' },
     { href: '#about', label: 'About', id: 'about' },
     { href: '#skills', label: 'Tools', id: 'skills' },
-    { href: '#projects', label: 'Projects', id: 'projects' },
     { href: '#experience', label: 'Experience', id: 'experience' },
+    { href: '#projects', label: 'Projects', id: 'projects' },
     { href: '#certificates', label: 'Certificates', id: 'certificates' },
     { href: '#contact', label: 'Contact', id: 'contact' },
   ];
