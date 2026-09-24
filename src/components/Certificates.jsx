@@ -23,6 +23,14 @@ const certificates = [
     link: 'https://drive.google.com/file/d/1_58LmE2P1Y9zqKpFTBrq8m_-XNLxudZ-/view',
     delay: '100ms',
   },
+   {
+    title: 'Vex robotics Challenger',
+    issuer: 'Addis Ababa University and AAU AI AND ROBOTICS',
+    year: '2026',
+    image: '/images/certificates/cert4.jpg',
+    link: 'https://drive.google.com/file/d/1HAII_i6rL3mZgTx-_hRROcZXBDAPcpe4/view?usp=sharing',
+    delay: '100ms',
+  },
 ];
 
 export default function Certificates() {
