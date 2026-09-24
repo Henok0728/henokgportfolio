@@ -9,30 +9,11 @@
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=STIX+Two+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-    <link rel="stylesheet" href="styles/styles.css">
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" id="favi" href="images/favicon/hardware.ico">
+    <link rel="icon" type="image/x-icon" id="favi" href="/images/favicon/hardware.ico">
 </head>
 <body>
-    <include src="sections/preloader.html" />
-
-    <div class="scroll-progress"></div>
-    <div class="background-net" aria-hidden="true"></div>
-
-    <include src="sections/nav.html" />
-
-    <main>
-        <include src="sections/hero.html" />
-        <include src="sections/about.html" />
-        <include src="sections/tools.html" />
-        <include src="sections/experience.html" />
-        <include src="sections/projects.html" />
-        <include src="sections/certificates.html" />
-        <include src="sections/contact.html" />
-    </main>
-
-    <include src="sections/footer.html" />
-
-    <script type="module" src="scripts/script.js"></script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
 </body>
 </html>

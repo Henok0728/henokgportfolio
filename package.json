@@ -1,7 +1,7 @@
 {
   "name": "henokportfolio",
   "version": "1.0.0",
-  "description": "",
+  "description": "Portfolio website of Henok Gizaw",
   "homepage": "https://github.com/Henok0728/henokgportfolio#readme",
   "bugs": {
     "url": "https://github.com/Henok0728/henokgportfolio/issues"
@@ -12,25 +12,21 @@
   },
   "license": "ISC",
   "author": "Henok Gizaw",
-  "type": "commonjs",
-  "main": "js/script.js",
-  "directories": {
-    "test": "test"
-  },
+  "type": "module",
   "scripts": {
-    "dev": "nodemon --watch src -e html,css,js --exec vite",
-    "vite": "vite",
+    "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
     "devicons": "^2.0.1",
     "katex": "^0.18.3",
-    "nodemon": "^3.1.14"
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
   },
   "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
     "vite": "^6.0.0"
   },
   "optionalDependencies": {
@@ -38,14 +34,5 @@
     "@esbuild/win32-x64": "^0.25.12",
     "@rollup/rollup-linux-x64-gnu": "^4.62.4",
     "@rollup/rollup-win32-x64-msvc": "^4.62.4"
-  },
-  "supportedArchitectures": {
-    "os": [
-      "win32",
-      "linux"
-    ],
-    "cpu": [
-      "x64"
-    ]
   }
 }
