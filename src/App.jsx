@@ -7,9 +7,7 @@ import Tools from './components/Tools';
 import Experience from './components/Experience';
 import Projects from './components/Projects';
 import Certificates from './components/Certificates';
-import Contact from './components/Contact';
 import Footer from './components/Footer';
-
 import { Analytics } from '@vercel/analytics/react';
 
 import { initPhysicsBackground } from './scripts/modules/physics-bg';
@@ -62,7 +60,6 @@ export default function App() {
         <Experience />
         <Projects />
         <Certificates />
-        <Contact />
       </main>
       <Footer />
       <Analytics />

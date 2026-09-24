@@ -21,7 +21,6 @@ const track2Items = [
   { icon: 'devicon-embeddedc-plain colored', name: 'ESP32 / IoT' },
   { icon: 'devicon-matlab-plain colored', name: 'Matlab' },
   { icon: 'devicon-archlinux-plain colored', name: 'FPGA' },
-  { icon: 'devicon-raspberrypi-line colored', name: 'Raspberry Pi' },
   { icon: 'devicon-nvidia-plain colored', name: 'Jetson Nano' },
 ];
 

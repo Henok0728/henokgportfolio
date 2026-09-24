@@ -71,8 +71,7 @@ export default function Nav() {
     { href: '#skills', label: 'Tools', id: 'skills' },
     { href: '#experience', label: 'Experience', id: 'experience' },
     { href: '#projects', label: 'Projects', id: 'projects' },
-    { href: '#certificates', label: 'Certificates', id: 'certificates' },
-    { href: '#contact', label: 'Contact', id: 'contact' },
+    { href: '#certificates', label: 'Certificates', id: 'certificates' }
   ];
 
   return (
