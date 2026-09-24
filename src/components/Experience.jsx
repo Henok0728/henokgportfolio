@@ -15,6 +15,14 @@ const experiences = [
     image: '/images/Experience/robotics.jpeg',
     imageAlt: 'Addis Ababa Ai and Robotics',
   },
+  { date: '2025',
+    role: 'Embedded Systems trainee',
+    org: 'Information Network Security Agency',
+    description: 'Participated in 4th batch summer camp challenge which was held in AASTU.',
+    image: '/images/Experience/insa.png',
+    imageAlt: 'Information Network Security Agency',
+
+  }
 ];
 
 export default function Experience() {
