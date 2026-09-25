@@ -53,7 +53,7 @@ body {
     overflow: hidden;
 }
 
-/* Transistor & Electronic Circuit Schematics Background Canvas (Light Mode Only) */
+/* Transistor & Electronic Circuit Schematics Background Canvas & Equations (Light Mode Only) */
 #light-bg-canvas {
     position: fixed;
     top: 0;
@@ -64,10 +64,26 @@ body {
     pointer-events: none !important;
     user-select: none;
     transition: opacity 0.5s ease;
+    opacity: 0.55;
     display: none;
 }
 
-[data-theme="light"] #light-bg-canvas {
+#light-equations-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -2;
+    pointer-events: none !important;
+    user-select: none;
+    overflow: hidden;
+    opacity: 0.72;
+    display: none;
+}
+
+[data-theme="light"] #light-bg-canvas,
+[data-theme="light"] #light-equations-layer {
     display: block !important;
 }
 
@@ -103,6 +119,44 @@ body {
 
 .physics-equation-node .katex {
     font-size: 1.15rem;
+    text-shadow: none;
+    pointer-events: none !important;
+}
+
+.light-equation-node {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    will-change: transform;
+    transform-origin: center center;
+    pointer-events: none !important;
+    user-select: none !important;
+}
+
+.light-equation-node .circuit-title-badge {
+    font-family: var(--font-family);
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(15, 23, 42, 0.48);
+    margin-bottom: 2px;
+    white-space: nowrap;
+}
+
+.light-equation-node .katex-display {
+    margin: 0;
+    pointer-events: none !important;
+}
+
+.light-equation-node .katex {
+    font-size: 0.96rem;
+    color: rgba(30, 64, 175, 0.52); /* Blueprint navy ink */
     text-shadow: none;
     pointer-events: none !important;
 }

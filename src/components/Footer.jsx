@@ -21,7 +21,7 @@ export default function Footer() {
       <div className="footer-content">
         <p>&copy; {time.getFullYear()} Henok Gizaw</p>
         <p className="footer-clock" aria-label="Current time">
-          {hours} : {minutes} : {seconds}
+         Still alive at {hours} : {minutes} : {seconds}
         </p>
         <div className="social-links">
             <a
